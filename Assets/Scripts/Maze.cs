@@ -456,6 +456,7 @@ public class Node {
 //	public int nodeD;
 
 		public Node(int c, int r, float x1, float y1, char o){
+    public Node(int c, int r, float x1, float y1, char o){
 		col = c;
 		row = r;
 		x = x1;
