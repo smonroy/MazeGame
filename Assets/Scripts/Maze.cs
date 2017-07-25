@@ -60,6 +60,15 @@ public class Maze : MonoBehaviour {
 				case 'K':
 					Instantiate(mazeObjects[2], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);
 					break;
+				case 'B':
+					Instantiate(mazeObjects[3], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);
+					break;
+				case 'A':
+					Instantiate(mazeObjects[4], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);
+					break;
+				case 'G':
+					Instantiate(mazeObjects[5], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);
+					break;
 				default:
 //					Instantiate(mazeObjects[0], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);
 					break;
