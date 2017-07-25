@@ -465,12 +465,12 @@ public class Node {
 	// D = door, G = Golden door, W = breakeble wall, P = Player
 	public char[] obstacles;
 
-//	public int nodeR;
-//	public int nodeL;
-//	public int nodeU;
-//	public int nodeD;
+    public int nodeR;
+    public int nodeL;
+    public int nodeU;
+    public int nodeD;
 
-		public Node(int c, int r, float x1, float y1, char o){
+    public Node(int c, int r, float x1, float y1, char o){
 		col = c;
 		row = r;
 		x = x1;
