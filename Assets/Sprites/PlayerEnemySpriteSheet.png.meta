@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: a1871b0bd7de84e52acd82d6d5bd62e7
-timeCreated: 1501009300
+guid: e26d959264ec9c843939d331b7e887f3
+timeCreated: 1501016927
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -12,6 +12,31 @@ TextureImporter:
     21300010: PlayerEnemySpriteSheet_5
     21300012: PlayerEnemySpriteSheet_6
     21300014: PlayerEnemySpriteSheet_7
+    21300016: PlayerEnemySpriteSheet_8
+    21300018: PlayerEnemySpriteSheet_9
+    21300020: PlayerEnemySpriteSheet_10
+    21300022: PlayerEnemySpriteSheet_11
+    21300024: PlayerEnemySpriteSheet_12
+    21300026: PlayerEnemySpriteSheet_13
+    21300028: PlayerEnemySpriteSheet_14
+    21300030: PlayerEnemySpriteSheet_15
+    21300032: PlayerEnemySpriteSheet_16
+    21300034: PlayerEnemySpriteSheet_17
+    21300036: PlayerEnemySpriteSheet_18
+    21300038: PlayerEnemySpriteSheet_19
+    21300040: PlayerEnemySpriteSheet_20
+    21300042: PlayerEnemySpriteSheet_21
+    21300044: PlayerEnemySpriteSheet_22
+    21300046: PlayerEnemySpriteSheet_23
+    21300048: PlayerEnemySpriteSheet_24
+    21300050: PlayerEnemySpriteSheet_25
+    21300052: PlayerEnemySpriteSheet_26
+    21300054: PlayerEnemySpriteSheet_27
+    21300056: PlayerEnemySpriteSheet_28
+    21300058: PlayerEnemySpriteSheet_29
+    21300060: PlayerEnemySpriteSheet_30
+    21300062: PlayerEnemySpriteSheet_31
+    21300064: PlayerEnemySpriteSheet_32
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -74,6 +99,38 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Tizen
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -83,7 +140,7 @@ TextureImporter:
         serializedVersion: 2
         x: 8
         y: 342
-        width: 33
+        width: 32
         height: 37
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -176,8 +233,333 @@ TextureImporter:
         y: 295
         width: 32
         height: 36
-      alignment: 9
-      pivot: {x: 0.5000005, y: 0.50000083}
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_8
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 268
+        width: 6
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_9
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 248
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_10
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 246
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_11
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 244
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_12
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 201
+        width: 42
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_13
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 195
+        width: 42
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_14
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 194
+        width: 43
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_15
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 195
+        width: 42
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_16
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 153
+        width: 42
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_17
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 147
+        width: 42
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_18
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 146
+        width: 43
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_19
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 147
+        width: 42
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_20
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 105
+        width: 42
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_21
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 107
+        width: 44
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_22
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 108
+        width: 46
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_23
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 58
+        width: 44
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_24
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 61
+        width: 43
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_25
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 48
+        width: 41
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_26
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 52
+        width: 40
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_27
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 52
+        width: 42
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_28
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 9
+        width: 42
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_29
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 11
+        width: 42
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_30
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 26
+        width: 18
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_31
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 26
+        width: 43
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PlayerEnemySpriteSheet_32
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 31
+        width: 18
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

@@ -26,7 +26,6 @@ public class Maze : MonoBehaviour {
 	private float sizeY;
 	private List<Wall> walls = new List<Wall>();
 
-
 	// Use this for initialization
 	void Start () {
 		IntializeLevel(1);
@@ -40,13 +39,13 @@ public class Maze : MonoBehaviour {
 		AddNodes();
 		ConnectNodes();
 		CreateWalls();
-		CreateObject ();
+		CreateObject();
 	}
 
 
 	private void CreateWalls(){
 		foreach (Wall wall in walls) {
-			GameObject newWall = Instantiate(wallBlock, new Vector3 (wall.x, wall.y, -1f), Quaternion.identity, wallsGroup.transform);
+			GameObject newWall = Instantiate(wallBlock, new Vector3 (wall.x, wall.y, 0f), Quaternion.identity, wallsGroup.transform);
 			newWall.transform.localScale = new Vector3(wall.width, wall.height, 0f);
 		}
 	}
@@ -65,7 +64,7 @@ public class Maze : MonoBehaviour {
 //					Instantiate(mazeObjects[0], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);
 					break;
 			}
-//			if(node.obstacles[0] != ' ')
+//			if(node.links[0] != -1)
 //				Instantiate(mazeObjects[0], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);
 		}
 	}
@@ -87,19 +86,19 @@ public class Maze : MonoBehaviour {
 		foreach (Node node in nodes){
 			if(map[node.row-1, node.col] != 1 && node.row > 1) { // not unbreakeable wall 
 				node.links[0] = nodes.FindIndex(x => x.col == node.col && x.row == node.row-2);
-				node.obstacles [0] = MapNumberToChar (map [node.row-1, node.col]);
+				node.obstacles[0] = MapNumberToChar(map[node.row-1, node.col]);
 			}
 			if(map[node.row, node.col+1] != 1) { // not unbreakeable wall 
 				node.links[1] = nodes.FindIndex(x => x.col == node.col+2 && x.row == node.row);
-				node.obstacles [1] = MapNumberToChar (map [node.row, node.col+1]);
+				node.obstacles[1] = MapNumberToChar(map[node.row, node.col+1]);
 			}
 			if(map[node.row+1, node.col] != 1) { // not unbreakeable wall 
 				node.links[2] = nodes.FindIndex(x => x.col == node.col && x.row == node.row+2);
-				node.obstacles [2] = MapNumberToChar (map [node.row+1, node.col]);
+				node.obstacles[2] = MapNumberToChar(map[node.row+1, node.col]);
 			}
 			if(map[node.row, node.col-1] != 1) { // not unbreakeable wall 
 				node.links[3] = nodes.FindIndex(x => x.col == node.col-2 && x.row == node.row);
-				node.obstacles [3] = MapNumberToChar (map [node.row, node.col-1]);
+				node.obstacles[3] = MapNumberToChar(map[node.row, node.col-1]);
 			}
 		}
 	}
@@ -216,6 +215,7 @@ public class Maze : MonoBehaviour {
 	}
 
 	private void IntializeLevel(int level) {
+
 		// 0  = empty path in the maze
 		// 1  = unbreakeble walls
 		// 3  = path with an enemy
@@ -232,7 +232,6 @@ public class Maze : MonoBehaviour {
 		// temporaly values
 		// 15 = Tu 
 		// 48 = Tr
-
 
 		if (level == 1) {
 			int[,] tmpMap = new int[,] {
@@ -455,7 +454,6 @@ public class Node {
 	// objects that can block the path between nodes
 	// D = door, G = Golden door, W = breakeble wall, P = Player
 	public char[] obstacles;
-
 
     public Node(int c, int r, float x1, float y1, char o){
 		col = c;
