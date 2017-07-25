@@ -13,6 +13,8 @@ public class Maze : MonoBehaviour {
 	public float centerY = 10;
 	public float squareSize;
 	public float wallWidth; // factor of size
+	public int initialNode;
+	public List<Node> nodes = new List<Node>();
 
 	// private variables
 	private int[,] map;
@@ -23,7 +25,6 @@ public class Maze : MonoBehaviour {
 	private float sizeX;
 	private float sizeY;
 	private List<Wall> walls = new List<Wall>();
-	private List<Node> nodes = new List<Node>();
 
 
 	// Use this for initialization
@@ -43,7 +44,7 @@ public class Maze : MonoBehaviour {
 	}
 
 
-	void CreateWalls(){
+	private void CreateWalls(){
 		foreach (Wall wall in walls) {
 			GameObject newWall = Instantiate(wallBlock, new Vector3 (wall.x, wall.y, -1f), Quaternion.identity, wallsGroup.transform);
 			newWall.transform.localScale = new Vector3(wall.width, wall.height, 0f);
@@ -51,35 +52,38 @@ public class Maze : MonoBehaviour {
 	}
 
 
-	void CreateObject(){
+	private void CreateObject(){
 		foreach (Node node in nodes) {
 			switch (node.initialObject) {
 				case 'I':
-					Instantiate(mazeObjects[1], new Vector3 (node.x, node.y, -1f), Quaternion.identity, objectGroup.transform);
+					Instantiate(mazeObjects[1], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);
 					break;
 				case 'K':
-					Instantiate(mazeObjects[2], new Vector3 (node.x, node.y, -1f), Quaternion.identity, objectGroup.transform);
+					Instantiate(mazeObjects[2], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);
 					break;
 				default:
-//					Instantiate(mazeObjects[0], new Vector3 (node.x, node.y, -1f), Quaternion.identity, objectGroup.transform);
+//					Instantiate(mazeObjects[0], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);
 					break;
 			}
 //			if(node.obstacles[0] != ' ')
-//				Instantiate(mazeObjects[0], new Vector3 (node.x, node.y, -1f), Quaternion.identity, objectGroup.transform);
+//				Instantiate(mazeObjects[0], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);
 		}
 	}
 
-	void AddNodes(){
+	private void AddNodes(){
 		for(int i=1; i<map.GetLength(0); i=i+2){ // step by 2 because we are skiping the internal walls
 			for(int j=1; j<map.GetLength(1); j=j+2){ // step by 2 because we are skiping the internal walls
 				if(map[i,j] != 1) {	// not unbreakeble wall
+					if(MapNumberToChar(map [i, j]) == 'I') {
+						initialNode = nodes.Count;
+					}
 					nodes.Add(new Node(j, i, initialX+(j*sizeX), -(initialY+(i*sizeY)), MapNumberToChar(map [i, j])));
 				}
 			}
 		}
 	}
 
-	void ConnectNodes(){
+	private void ConnectNodes(){
 		foreach (Node node in nodes){
 			if(map[node.row-1, node.col] != 1 && node.row > 1) { // not unbreakeable wall 
 				node.links[0] = nodes.FindIndex(x => x.col == node.col && x.row == node.row-2);
@@ -100,7 +104,7 @@ public class Maze : MonoBehaviour {
 		}
 	}
 
-	void AddWalls(){
+	private void AddWalls(){
 		
 		// Horizontals walls
 		for(int i=0; i<map.GetLength(0); i++){
@@ -193,7 +197,7 @@ public class Maze : MonoBehaviour {
 		}
 	}
 
-	char MapNumberToChar(int i){
+	private char MapNumberToChar(int i){
 		switch (i) {
 			// main nodes
 			case 44: return 'K';
@@ -211,7 +215,7 @@ public class Maze : MonoBehaviour {
 		}
 	}
 
-	void IntializeLevel(int level) {
+	private void IntializeLevel(int level) {
 		// 0  = empty path in the maze
 		// 1  = unbreakeble walls
 		// 3  = path with an enemy
