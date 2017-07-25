@@ -24,7 +24,6 @@ public class Maze : MonoBehaviour {
 	private float sizeY;
 	private List<Wall> walls = new List<Wall>();
 	private List<Node> nodes = new List<Node>();
-//	private int startNode;
 
 
 	// Use this for initialization
@@ -450,12 +449,7 @@ public class Node {
 	// D = door, G = Golden door, W = breakeble wall, P = Player
 	public char[] obstacles;
 
-//	public int nodeR;
-//	public int nodeL;
-//	public int nodeU;
-//	public int nodeD;
 
-		public Node(int c, int r, float x1, float y1, char o){
     public Node(int c, int r, float x1, float y1, char o){
 		col = c;
 		row = r;
@@ -463,10 +457,6 @@ public class Node {
 		y = y1;
 		links = new int[] {-1, -1, -1, -1};
 		obstacles = new char[] {' ', ' ', ' ', ' '};
-//		for (int i = 0; i < 4; i++) {
-//			links[i] = -1;
-//			obstacles[i] = ' ';
-//		}
 		initialObject = o;
 	}
 }
