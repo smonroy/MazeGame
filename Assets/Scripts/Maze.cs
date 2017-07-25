@@ -24,12 +24,12 @@ public class Maze : MonoBehaviour {
 	private float sizeY;
 	private List<Wall> walls = new List<Wall>();
 	private List<Node> nodes = new List<Node>();
-	private int startNode;
+//	private int startNode;
 
 
 	// Use this for initialization
 	void Start () {
-		intializeLevel(1);
+		IntializeLevel(1);
 		width = squareSize * map.GetLength (1);
 		height = squareSize * map.GetLength (0);
 		initialX = centerX - (width / 2);
@@ -59,9 +59,11 @@ public class Maze : MonoBehaviour {
 					Instantiate(mazeObjects[1], new Vector3 (node.x, node.y, -1f), Quaternion.identity, objectGroup.transform);
 					break;
 				default:
-					Instantiate(mazeObjects[0], new Vector3 (node.x, node.y, -1f), Quaternion.identity, objectGroup.transform);
+//					Instantiate(mazeObjects[0], new Vector3 (node.x, node.y, -1f), Quaternion.identity, objectGroup.transform);
 					break;
 			}
+//			if(node.obstacles[0] != ' ')
+//				Instantiate(mazeObjects[0], new Vector3 (node.x, node.y, -1f), Quaternion.identity, objectGroup.transform);
 		}
 	}
 
@@ -69,34 +71,7 @@ public class Maze : MonoBehaviour {
 		for(int i=1; i<map.GetLength(0); i=i+2){ // step by 2 because we are skiping the internal walls
 			for(int j=1; j<map.GetLength(1); j=j+2){ // step by 2 because we are skiping the internal walls
 				if(map[i,j] != 1) {	// not unbreakeble wall
-					if(map[i,j] == 7) { // initial player position
-						startNode = nodes.Count;
-					}
-					char o = ' ';
-					switch (map [i, j]) {
-						case 44:
-							o = 'K';
-							break;
-						case 10:
-							o = 'G';
-							break;
-						case 3:
-							o = 'E';
-							break;
-						case 6:
-							o = 'A';
-							break;
-						case 33:
-							o = 'B';
-							break;
-						case 29:
-							o = 'T';
-							break;
-						case 7:
-							o = 'I';
-							break;
-					}
-					nodes.Add(new Node(j, i, initialX+(j*sizeX), -(initialY+(i*sizeY)),o));
+					nodes.Add(new Node(j, i, initialX+(j*sizeX), -(initialY+(i*sizeY)), MapNumberToChar(map [i, j])));
 				}
 			}
 		}
@@ -106,15 +81,19 @@ public class Maze : MonoBehaviour {
 		foreach (Node node in nodes){
 			if(map[node.row-1, node.col] != 1 && node.row > 1) { // not unbreakeable wall 
 				node.links[0] = nodes.FindIndex(x => x.col == node.col && x.row == node.row-2);
+				node.obstacles [0] = MapNumberToChar (map [node.row-1, node.col]);
 			}
 			if(map[node.row, node.col+1] != 1) { // not unbreakeable wall 
 				node.links[1] = nodes.FindIndex(x => x.col == node.col+2 && x.row == node.row);
+				node.obstacles [1] = MapNumberToChar (map [node.row, node.col+1]);
 			}
 			if(map[node.row+1, node.col] != 1) { // not unbreakeable wall 
 				node.links[2] = nodes.FindIndex(x => x.col == node.col && x.row == node.row+2);
+				node.obstacles [2] = MapNumberToChar (map [node.row+1, node.col]);
 			}
 			if(map[node.row, node.col-1] != 1) { // not unbreakeable wall 
 				node.links[3] = nodes.FindIndex(x => x.col == node.col-2 && x.row == node.row);
+				node.obstacles [3] = MapNumberToChar (map [node.row, node.col-1]);
 			}
 		}
 	}
@@ -212,9 +191,25 @@ public class Maze : MonoBehaviour {
 		}
 	}
 
+	char MapNumberToChar(int i){
+		switch (i) {
+			// main nodes
+			case 44: return 'K';
+			case 10: return 'G';
+			case 03: return 'E';
+			case 06: return 'A';
+			case 33: return 'B';
+			case 29: return 'T';
+			case 07: return 'I';
+			// inter-nodes
+			case 23: return 'D';
+			case 53: return 'G';
+			case 43: return 'W';
+			default: return ' ';
+		}
+	}
 
-
-	void intializeLevel(int level) {
+	void IntializeLevel(int level) {
 		// 0  = empty path in the maze
 		// 1  = unbreakeble walls
 		// 3  = path with an enemy
