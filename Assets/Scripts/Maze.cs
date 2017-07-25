@@ -54,8 +54,11 @@ public class Maze : MonoBehaviour {
 	void CreateObject(){
 		foreach (Node node in nodes) {
 			switch (node.initialObject) {
-				case 'K':
+				case 'I':
 					Instantiate(mazeObjects[1], new Vector3 (node.x, node.y, -1f), Quaternion.identity, objectGroup.transform);
+					break;
+				case 'K':
+					Instantiate(mazeObjects[2], new Vector3 (node.x, node.y, -1f), Quaternion.identity, objectGroup.transform);
 					break;
 				default:
 //					Instantiate(mazeObjects[0], new Vector3 (node.x, node.y, -1f), Quaternion.identity, objectGroup.transform);
