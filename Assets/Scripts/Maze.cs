@@ -38,6 +38,7 @@ public class Maze : MonoBehaviour {
 		sizeY = height / (map.GetLength(0));
 		AddWalls();
 		AddNodes();
+		ConnectNodes();
 		CreateWalls();
 		CreateObject ();
 	}
@@ -66,9 +67,7 @@ public class Maze : MonoBehaviour {
 
 	void AddNodes(){
 		for(int i=1; i<map.GetLength(0); i=i+2){ // step by 2 because we are skiping the internal walls
-			int c = 1;
 			for(int j=1; j<map.GetLength(1); j=j+2){ // step by 2 because we are skiping the internal walls
-				int r = 1;
 				if(map[i,j] != 1) {	// not unbreakeble wall
 					if(map[i,j] == 7) { // initial player position
 						startNode = nodes.Count;
@@ -97,7 +96,7 @@ public class Maze : MonoBehaviour {
 							o = 'I';
 							break;
 					}
-					nodes.Add(new Node(c, r, initialX+(j*sizeX), -(initialY+(i*sizeY)),o));
+					nodes.Add(new Node(j, i, initialX+(j*sizeX), -(initialY+(i*sizeY)),o));
 				}
 			}
 		}
@@ -105,26 +104,17 @@ public class Maze : MonoBehaviour {
 
 	void ConnectNodes(){
 		foreach (Node node in nodes){
-			if(map[node.row-1, node.col] != 1) { // not unbreakeable wall 
-				node.links[0] = nodes.FindIndex(x => x.col == node.col && x.row == node.row-1);
+			if(map[node.row-1, node.col] != 1 && node.row > 1) { // not unbreakeable wall 
+				node.links[0] = nodes.FindIndex(x => x.col == node.col && x.row == node.row-2);
 			}
-
-			int colR = ((node.col) % map.GetLength(1))+1;
-			int rowD = ((node.row) % map.GetLength(0))+1;
-			int colL = node.col == 1 ? map.GetLength(1) : node.col - 1;
-			int rowU = node.row == 1 ? map.GetLength(0) : node.row - 1;
-
-			if(nodes.Exists(x => x.col == colR && x.row == node.row)){
-				node.nodeR = nodes.FindIndex(x => x.col == colR && x.row == node.row);
+			if(map[node.row, node.col+1] != 1) { // not unbreakeable wall 
+				node.links[1] = nodes.FindIndex(x => x.col == node.col+2 && x.row == node.row);
 			}
-			if(nodes.Exists(x => x.col == colL && x.row == node.row)){
-				node.nodeL = nodes.FindIndex(x => x.col == colL && x.row == node.row);
+			if(map[node.row+1, node.col] != 1) { // not unbreakeable wall 
+				node.links[2] = nodes.FindIndex(x => x.col == node.col && x.row == node.row+2);
 			}
-			if(nodes.Exists(x => x.col == node.col && x.row == rowU)){
-				node.nodeU = nodes.FindIndex(x => x.col == node.col && x.row == rowU);
-			}
-			if(nodes.Exists(x => x.col == node.col && x.row == rowD)){
-				node.nodeD = nodes.FindIndex(x => x.col == node.col && x.row == rowD);
+			if(map[node.row, node.col-1] != 1) { // not unbreakeable wall 
+				node.links[3] = nodes.FindIndex(x => x.col == node.col-2 && x.row == node.row);
 			}
 		}
 	}
