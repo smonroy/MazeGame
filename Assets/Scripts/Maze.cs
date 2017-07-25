@@ -46,7 +46,7 @@ public class Maze : MonoBehaviour {
 	private void CreateWalls(){
 		foreach (Wall wall in walls) {
 			GameObject newWall = Instantiate(wallBlock, new Vector3 (wall.x, wall.y, 0f), Quaternion.identity, wallsGroup.transform);
-			newWall.transform.localScale = new Vector3(wall.width, wall.height, 0f);
+			newWall.transform.localScale = new Vector3(wall.width, wall.height, 0.1f);
 		}
 	}
 
@@ -69,12 +69,44 @@ public class Maze : MonoBehaviour {
 				case 'G':
 					Instantiate(mazeObjects[5], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);
 					break;
+				case 'E':
+					Instantiate(mazeObjects[9], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);
+					break;
+
 				default:
 //					Instantiate(mazeObjects[0], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);
 					break;
 			}
-//			if(node.links[0] != -1)
-//				Instantiate(mazeObjects[0], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);
+			for (int dir = 0; dir < 2; dir++) {
+				GameObject newObstacle;
+				float oWidth, oHeight, oX, oY;
+				if (dir == 0) {
+					oWidth = squareSize * 2f;
+					oHeight = sizeX * wallWidth / 2f;
+					oX = node.x;
+					oY = node.y + squareSize;
+				} else {
+					oWidth = sizeY * wallWidth / 2f;
+					oHeight = squareSize * 2f;
+					oX = node.x + squareSize;
+					oY = node.y;
+				}
+					
+				switch (node.obstacles [dir]) {
+					case 'W':
+						newObstacle = Instantiate (mazeObjects [6], new Vector3 (oX, oY, 0f), Quaternion.identity, objectGroup.transform);
+					newObstacle.transform.localScale = new Vector3 (oWidth, oHeight, 0f);
+						break;
+					case 'D':
+						newObstacle = Instantiate (mazeObjects [7], new Vector3 (oX, oY, 0f), Quaternion.identity, objectGroup.transform);
+						newObstacle.transform.localScale = new Vector3 (oWidth, oHeight, 0f);
+						break;
+					case 'G':
+						newObstacle = Instantiate (mazeObjects [8], new Vector3 (oX, oY, 0f), Quaternion.identity, objectGroup.transform);
+						newObstacle.transform.localScale = new Vector3 (oWidth, oHeight, 0f);
+						break;
+				}
+			}
 		}
 	}
 
