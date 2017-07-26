@@ -79,3 +79,10 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+Library/ScriptAssemblies/BuiltinAssemblies.stamp
+*.mdb
+Library/ScriptAssemblies/Assembly-CSharp.dll
+*.stamp
+Library/ScriptAssemblies/Assembly-CSharp.dll
+Library/assetDatabase3
+Library/metadata/5c/5ce5f2e1f0e3548a5a2b3fed38c82b31
