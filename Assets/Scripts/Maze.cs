@@ -84,6 +84,19 @@ public class Maze : MonoBehaviour {
 				case 'E':
 					Instantiate(mazeObjects[9], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);
 					break;
+				case 'T':
+					int angle = 0;
+					for (int i = 0; i < 4; i++)
+					{
+						if (node.links [i] != -1) {
+							angle = 270 - (i * 90);
+							break;
+						}
+					}
+					Quaternion rot = Quaternion.AngleAxis(angle, new Vector3(0,0,1));
+					GameObject newTurret = Instantiate(mazeObjects[10], new Vector3 (node.x, node.y, 0f), rot, objectGroup.transform);
+					//newTurret.transform.rotation = 
+					break;
 
 				default:
 //					Instantiate(mazeObjects[0], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);

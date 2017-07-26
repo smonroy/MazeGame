@@ -13,9 +13,4 @@ public class ArrowMove : MonoBehaviour {
         rBody = this.GetComponent<Rigidbody2D>();
         rBody.velocity = -this.transform.right * speed;
     }
-
-    // Update is called once per frame
-    void Update () {
-		
-	}
 }
