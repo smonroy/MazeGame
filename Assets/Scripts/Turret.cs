@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class Turret : MonoBehaviour {
     public int interval = 3;
-    //public GameObject arrowLeft;
-    //public GameObject arrowRight;
-    //public GameObject arrowUp;
-    //public GameObject arrowDown;
 
     public GameObject arrow;
     // Use this for initialization

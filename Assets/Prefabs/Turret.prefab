@@ -47,13 +47,13 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1337923218877166}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 38546ef08ab705240ace82330d98585f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   interval: 3
-  arrow: {fileID: 1854315378870698, guid: 4b325eafb3e66a743ae3ecf375ed8dbf, type: 2}
+  arrow: {fileID: 1647969994693736, guid: 4b325eafb3e66a743ae3ecf375ed8dbf, type: 2}
 --- !u!212 &212491932538814198
 SpriteRenderer:
   m_ObjectHideFlags: 1
