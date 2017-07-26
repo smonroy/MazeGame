@@ -6,8 +6,10 @@ public class Maze : MonoBehaviour {
 
 	// public variables
 	public GameObject wallsGroup;
-	public GameObject wallBlock;
+	public GameObject fogGroup;
 	public GameObject objectGroup;
+	public GameObject wallBlock;
+	public GameObject fogObject;
 	public GameObject[] mazeObjects;
 	public float centerX = 10;
 	public float centerY = 10;
@@ -35,10 +37,15 @@ public class Maze : MonoBehaviour {
 		initialY = centerY - (height / 2);
 		sizeX = width / (map.GetLength(1));
 		sizeY = height / (map.GetLength(0));
+
+		// logic construction
 		AddWalls();
 		AddNodes();
 		ConnectNodes();
+
+		// phisycal construction
 		CreateWalls();
+		CreateFog();
 		CreateObject();
 	}
 
@@ -50,6 +57,11 @@ public class Maze : MonoBehaviour {
 		}
 	}
 
+	private void CreateFog() {
+		for (int i = 0; i < 2500; i++) {
+			Instantiate(fogObject, new Vector3 (Random.Range(initialX, initialX + width), Random.Range(initialY, initialY + height), -1f), Quaternion.identity, fogGroup.transform);
+		}
+	}
 
 	private void CreateObject(){
 		foreach (Node node in nodes) {
@@ -127,19 +139,19 @@ public class Maze : MonoBehaviour {
 		foreach (Node node in nodes){
 			if(map[node.row-1, node.col] != 1 && node.row > 1) { // not unbreakeable wall 
 				node.links[0] = nodes.FindIndex(x => x.col == node.col && x.row == node.row-2);
-				node.obstacles[0] = MapNumberToChar(map[node.row-1, node.col]);
+//				node.obstacles[0] = MapNumberToChar(map[node.row-1, node.col]);
 			}
 			if(map[node.row, node.col+1] != 1) { // not unbreakeable wall 
 				node.links[1] = nodes.FindIndex(x => x.col == node.col+2 && x.row == node.row);
-				node.obstacles[1] = MapNumberToChar(map[node.row, node.col+1]);
+//				node.obstacles[1] = MapNumberToChar(map[node.row, node.col+1]);
 			}
 			if(map[node.row+1, node.col] != 1) { // not unbreakeable wall 
 				node.links[2] = nodes.FindIndex(x => x.col == node.col && x.row == node.row+2);
-				node.obstacles[2] = MapNumberToChar(map[node.row+1, node.col]);
+//				node.obstacles[2] = MapNumberToChar(map[node.row+1, node.col]);
 			}
 			if(map[node.row, node.col-1] != 1) { // not unbreakeable wall 
 				node.links[3] = nodes.FindIndex(x => x.col == node.col-2 && x.row == node.row);
-				node.obstacles[3] = MapNumberToChar(map[node.row, node.col-1]);
+//				node.obstacles[3] = MapNumberToChar(map[node.row, node.col-1]);
 			}
 		}
 	}
