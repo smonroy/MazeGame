@@ -7,12 +7,11 @@ public class EnemyController : MonoBehaviour {
 	public float velocity;
 
 	private Maze maze;
-
-	public int hNode; // home node
-	public int pNode; // pivote node;
-	public int cNode; // current node;
-	public int dNode; // destination node;
-	public int cDir; // current direction;
+	private int hNode; // home node
+	private int pNode; // pivote node;
+	private int cNode; // current node;
+	private int dNode; // destination node;
+	private int cDir; // current direction;
 
 	// Use this for initialization
 	void Start () {

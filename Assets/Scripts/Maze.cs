@@ -67,7 +67,7 @@ public class Maze : MonoBehaviour {
 		foreach (Node node in nodes) {
 			switch (node.initialObject) {
 				case 'I':
-					Instantiate(mazeObjects[1], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);
+					Instantiate(mazeObjects[1], new Vector3 (node.x, node.y, 0f), Quaternion.identity);
 					break;
 				case 'K':
 					Instantiate(mazeObjects[2], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);
@@ -94,12 +94,7 @@ public class Maze : MonoBehaviour {
 						}
 					}
 					Quaternion rot = Quaternion.AngleAxis(angle, new Vector3(0,0,1));
-					GameObject newTurret = Instantiate(mazeObjects[10], new Vector3 (node.x, node.y, 0f), rot, objectGroup.transform);
-					//newTurret.transform.rotation = 
-					break;
-
-				default:
-//					Instantiate(mazeObjects[0], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);
+					Instantiate(mazeObjects[10], new Vector3 (node.x, node.y, 0f), rot, objectGroup.transform); 
 					break;
 			}
 			for (int dir = 0; dir < 2; dir++) {

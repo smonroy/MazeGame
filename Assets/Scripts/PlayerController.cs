@@ -5,21 +5,67 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	public float velocity = 1f;
-	public int cNode; // current node
-	public int dNode; // destination node
-	public int cDir; // direction of the player's face
+	public int bombIncrement;
+	public int bulletIncrement;
 
+	private int cNode; // current node
+	private int dNode; // destination node
+	private int checkPointNode; // checkPoint;
+	private int cDir; // direction of the player's face
+	private int nBombs;
+	private int nBullets;
+	private int nKeys;
+	private int nGoldenKeys;
 	private Maze maze;
+	private Animator anim;
 
 	// Use this for initialization
 	void Start () {
 		maze = GameObject.Find ("GameController").GetComponent<Maze> ();
+		anim = GetComponent<Animator> ();
 		cNode = maze.initialNode;
 		dNode = cNode;
+		checkPointNode = cNode;
 		cDir = 0;
+		nBombs = 0;
+		nBullets = 0;
+		nKeys = 0;
+		nGoldenKeys = 0;
 	}
 
-	void FixedUpdate(){
+	private void OnTriggerEnter2D(Collider2D other){
+		if (other.tag == "Bomb") {
+			nBombs += bombIncrement;
+			Destroy (other.gameObject);
+			checkPointNode = dNode;
+		}
+		if (other.tag == "Ammo") {
+			nBullets += bulletIncrement;
+			Destroy (other.gameObject);
+			checkPointNode = dNode;
+		}
+		if (other.tag == "Key") {
+			nKeys++;
+			Destroy (other.gameObject);
+			checkPointNode = dNode;
+		}
+		if (other.tag == "GoldenKey") {
+			nGoldenKeys++;
+			Destroy (other.gameObject);
+			checkPointNode = dNode;
+		}
+		if (other.tag == "Arrow" || other.tag == "Enemy") {
+			Vector3 pos = transform.position;
+			pos.x = maze.nodes [checkPointNode].x;
+			pos.y = maze.nodes [checkPointNode].y;
+			dNode = checkPointNode;
+			cNode = checkPointNode;
+			transform.position = pos;
+			checkPointNode = dNode;
+		}
+	}
+
+	private void FixedUpdate(){
 		Vector3 pos = transform.position;
 		// make the move
 		if (dNode != cNode) {
@@ -32,7 +78,7 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
-	void Update () {
+	private void Update () {
 		int nDir = -1;
 		if (cNode == dNode) {
 			if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
@@ -43,6 +89,9 @@ public class PlayerController : MonoBehaviour {
 				nDir = 2;
 			if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
 				nDir = 3;
+			if (nDir == -1) {
+				anim.SetBool ("PlayerIsWalking", false);
+			}
 		}
 		if (nDir != -1) {
 			if (nDir != cDir) {
@@ -67,6 +116,7 @@ public class PlayerController : MonoBehaviour {
 
 			if (maze.nodes [cNode].links [nDir] != -1 && maze.nodes [cNode].obstacles [nDir] == ' ') {
 				dNode = maze.nodes [cNode].links [nDir];
+				anim.SetBool ("PlayerIsWalking", true);
 			}
 		}
 	}

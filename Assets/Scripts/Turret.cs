@@ -18,7 +18,7 @@ public class Turret : MonoBehaviour {
         {
 			Vector2 spawnPosition = new Vector2(this.transform.parent.position.x, this.transform.parent.position.y);
             Quaternion spawnRotation = this.transform.rotation;
-            Instantiate(arrow, spawnPosition, spawnRotation);
+			Instantiate(arrow, spawnPosition, spawnRotation, this.transform);
 
             yield return new WaitForSeconds(interval);
         }

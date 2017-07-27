@@ -5,10 +5,8 @@ using UnityEngine;
 public class CameraController : MonoBehaviour {
 	// Public variables
 	public float velocity;
-	public float topLimit;
-	public float bottomLimit;
-	public float leftLimit;
-	public float rightLimit;
+	public float verticalLimit;
+	public float horizontalLimit;
 
 	private GameObject player;
 
@@ -23,22 +21,20 @@ public class CameraController : MonoBehaviour {
 				player = p;
 			}
 		} else {
-			if (player.transform.position.y > this.transform.position.y + topLimit || 
-				player.transform.position.y < this.transform.position.y - bottomLimit) {
-
-				Vector3 pos = transform.position;
-				// make the move
+			Vector3 pos = transform.position;
+			if (Mathf.Abs(player.transform.position.y-this.transform.position.y) > verticalLimit) {
 				pos.y += Mathf.Clamp (player.transform.position.y - pos.y, -velocity, velocity);
-				transform.position = pos;
 			}	
-			if (player.transform.position.x > this.transform.position.x + rightLimit || 
-				player.transform.position.x < this.transform.position.x - leftLimit) {
-
-				Vector3 pos = transform.position;
-				// make the move
+			if (Mathf.Abs(player.transform.position.y-this.transform.position.y) > 2f*verticalLimit) {
+				pos.y += Mathf.Clamp (player.transform.position.y - pos.y, -2f*velocity, 2f*velocity);
+			}	
+			if (Mathf.Abs(player.transform.position.x-this.transform.position.x) > horizontalLimit) {
 				pos.x += Mathf.Clamp (player.transform.position.x - pos.x, -velocity, velocity);
-				transform.position = pos;
 			}	
+			if (Mathf.Abs(player.transform.position.x-this.transform.position.x) > 2f*horizontalLimit) {
+				pos.x += Mathf.Clamp (player.transform.position.x - pos.x, -2f*velocity, 2f*velocity);
+			}	
+			transform.position = pos;
 		}
 	}
 }
