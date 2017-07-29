@@ -147,19 +147,19 @@ public class Maze : MonoBehaviour {
 		foreach (Node node in nodes){
 			if(map[node.row-1, node.col] != 1 && node.row > 1) { // not unbreakeable wall 
 				node.links[0] = nodes.FindIndex(x => x.col == node.col && x.row == node.row-2);
-//				node.obstacles[0] = MapNumberToChar(map[node.row-1, node.col]);
+				node.obstacles[0] = MapNumberToChar(map[node.row-1, node.col]);
 			}
 			if(map[node.row, node.col+1] != 1) { // not unbreakeable wall 
 				node.links[1] = nodes.FindIndex(x => x.col == node.col+2 && x.row == node.row);
-//				node.obstacles[1] = MapNumberToChar(map[node.row, node.col+1]);
+				node.obstacles[1] = MapNumberToChar(map[node.row, node.col+1]);
 			}
 			if(map[node.row+1, node.col] != 1) { // not unbreakeable wall 
 				node.links[2] = nodes.FindIndex(x => x.col == node.col && x.row == node.row+2);
-//				node.obstacles[2] = MapNumberToChar(map[node.row+1, node.col]);
+				node.obstacles[2] = MapNumberToChar(map[node.row+1, node.col]);
 			}
 			if(map[node.row, node.col-1] != 1) { // not unbreakeable wall 
 				node.links[3] = nodes.FindIndex(x => x.col == node.col-2 && x.row == node.row);
-//				node.obstacles[3] = MapNumberToChar(map[node.row, node.col-1]);
+				node.obstacles[3] = MapNumberToChar(map[node.row, node.col-1]);
 			}
 		}
 	}
