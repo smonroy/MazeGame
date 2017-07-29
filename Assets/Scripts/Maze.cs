@@ -11,6 +11,7 @@ public class Maze : MonoBehaviour {
 	public GameObject wallBlock;
 	public GameObject fogObject;
 	public GameObject[] mazeObjects;
+    public AudioClip[] sounds; // 0 - collect, 1 - footsteps
 	public float centerX = 10;
 	public float centerY = 10;
 	public float squareSize;

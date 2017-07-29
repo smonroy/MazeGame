@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour {
     private Text txtBomb;
     private Text txtKey;
     private Text txtGoldenKey;
+    private AudioSource audSource;
+    private AudioClip audio;
     // Use this for initialization
     void Start () {
         canvas = GameObject.FindGameObjectWithTag("Canvas");
@@ -38,6 +40,8 @@ public class PlayerController : MonoBehaviour {
         txtKey = aux.GetComponent<Text>();
         aux = canvas.transform.Find("txtGoldenKey");
         txtGoldenKey = aux.GetComponent<Text>();
+
+        audSource = this.GetComponent<AudioSource>();
 
         maze = GameObject.Find("GameController").GetComponent<Maze> ();
 		anim = GetComponent<Animator> ();
@@ -82,7 +86,17 @@ public class PlayerController : MonoBehaviour {
 			transform.position = pos;
 			checkPointNode = dNode;
 		}
-        UpdateCanvas();
+        else
+        {
+            if (other.tag == "GoldenKey" || other.tag == "Bomb" ||
+                other.tag == "Ammo" || other.tag == "Key")
+            {
+                UpdateCanvas();
+                audSource.Stop();
+                audSource.clip = maze.sounds[0];
+                audSource.Play();
+            }
+        }
     }
 
 	private void FixedUpdate(){
@@ -111,7 +125,8 @@ public class PlayerController : MonoBehaviour {
 				nDir = 3;
 			if (nDir == -1) {
 				anim.SetBool ("PlayerIsWalking", false);
-			}
+                audSource.Stop();
+            }
 		}
 		if (nDir != -1) {
 			if (nDir != cDir) {
@@ -137,6 +152,13 @@ public class PlayerController : MonoBehaviour {
 			if (maze.nodes [cNode].links [nDir] != -1 && maze.nodes [cNode].obstacles [nDir] == ' ') {
 				dNode = maze.nodes [cNode].links [nDir];
 				anim.SetBool ("PlayerIsWalking", true);
+
+                audSource.clip = maze.sounds[1];
+
+                if (!audSource.isPlaying) 
+                {
+                    audSource.Play();
+                }
 			}
 		}
     }
