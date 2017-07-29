@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
@@ -19,9 +21,25 @@ public class PlayerController : MonoBehaviour {
 	private Maze maze;
 	private Animator anim;
 
-	// Use this for initialization
-	void Start () {
-		maze = GameObject.Find ("GameController").GetComponent<Maze> ();
+    private GameObject canvas;
+    private Transform aux;
+    private Text txtAmmo;
+    private Text txtBomb;
+    private Text txtKey;
+    private Text txtGoldenKey;
+    // Use this for initialization
+    void Start () {
+        canvas = GameObject.FindGameObjectWithTag("Canvas");
+        aux = canvas.transform.Find("txtAmmo");
+        txtAmmo = aux.GetComponent<Text>();
+        aux = canvas.transform.Find("txtBomb");
+        txtBomb = aux.GetComponent<Text>();
+        aux = canvas.transform.Find("txtKey");
+        txtKey = aux.GetComponent<Text>();
+        aux = canvas.transform.Find("txtGoldenKey");
+        txtGoldenKey = aux.GetComponent<Text>();
+
+        maze = GameObject.Find("GameController").GetComponent<Maze> ();
 		anim = GetComponent<Animator> ();
 		cNode = maze.initialNode;
 		dNode = cNode;
@@ -31,9 +49,10 @@ public class PlayerController : MonoBehaviour {
 		nBullets = 0;
 		nKeys = 0;
 		nGoldenKeys = 0;
+        UpdateCanvas();
 	}
 
-	private void OnTriggerEnter2D(Collider2D other){
+    private void OnTriggerEnter2D(Collider2D other){
 		if (other.tag == "Bomb") {
 			nBombs += bombIncrement;
 			Destroy (other.gameObject);
@@ -63,7 +82,8 @@ public class PlayerController : MonoBehaviour {
 			transform.position = pos;
 			checkPointNode = dNode;
 		}
-	}
+        UpdateCanvas();
+    }
 
 	private void FixedUpdate(){
 		Vector3 pos = transform.position;
@@ -119,5 +139,13 @@ public class PlayerController : MonoBehaviour {
 				anim.SetBool ("PlayerIsWalking", true);
 			}
 		}
-	}
+    }
+
+    private void UpdateCanvas()
+    {
+        txtAmmo.text = nBullets.ToString();
+        txtBomb.text = nBombs.ToString();
+        txtKey.text = nKeys.ToString();
+        txtGoldenKey.text = nGoldenKeys.ToString();
+    }
 }
