@@ -283,6 +283,10 @@ public class Maze : MonoBehaviour {
 		}
 	}
 
+	public bool TestDoor() {
+		
+	}
+
 	private void InitializeLevel(int level) {
 
 		// 0  = empty path in the maze
