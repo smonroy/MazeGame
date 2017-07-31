@@ -217,11 +217,11 @@ public class PlayerController : MonoBehaviour
     {
         if (nKeys > 0)
         {
-			if (maze.nodes [cNode].obstacles [cDir] == 'D') 
+			if (maze.nodes [dNode].obstacles [cDir] == 'D') 
 			{
 				int oDir = (cDir + 2) % 4;
-				maze.nodes [cNode].obstacles [cDir] = ' ';
-				maze.nodes[maze.nodes[cNode].links[cDir]].obstacles[oDir] = ' ';
+				maze.nodes [dNode].obstacles [cDir] = ' ';
+				maze.nodes[maze.nodes[dNode].links[cDir]].obstacles[oDir] = ' ';
 			}
             nKeys--;
             UpdateCanvas();
