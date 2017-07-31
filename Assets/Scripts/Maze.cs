@@ -123,15 +123,15 @@ public class Maze : MonoBehaviour {
 				switch (node.obstacles [dir]) {
 					case 'W':
 						newObstacle = Instantiate (mazeObjects [6], new Vector3 (oX, oY, 0f), Quaternion.identity, objectGroup.transform);
-						newObstacle.transform.localScale = new Vector3 (oWidth, oHeight, 0f);
+						newObstacle.transform.localScale = new Vector3 (oWidth, oHeight, 0.1f);
 						break;
 					case 'D':
 						newObstacle = Instantiate (mazeObjects [7], new Vector3 (oX, oY, 0f), Quaternion.identity, objectGroup.transform);
-						newObstacle.transform.localScale = new Vector3 (oWidth, oHeight, 0f);
+						newObstacle.transform.localScale = new Vector3 (oWidth, oHeight, 0.1f);
 						break;
 					case 'G':
 						newObstacle = Instantiate (mazeObjects [8], new Vector3 (oX, oY, 0f), Quaternion.identity, objectGroup.transform);
-						newObstacle.transform.localScale = new Vector3 (oWidth, oHeight, 0f);
+						newObstacle.transform.localScale = new Vector3 (oWidth, oHeight, 0.1f);
 						break;
 				}
 			}
@@ -155,19 +155,19 @@ public class Maze : MonoBehaviour {
 		foreach (Node node in nodes){
 			if(map[node.row-1, node.col] != 1 && node.row > 1) { // not unbreakeable wall 
 				node.links[0] = nodes.FindIndex(x => x.col == node.col && x.row == node.row-2);
-//				node.obstacles[0] = MapNumberToChar(map[node.row-1, node.col]);
+				node.obstacles[0] = MapNumberToChar(map[node.row-1, node.col]);
 			}
 			if(map[node.row, node.col+1] != 1) { // not unbreakeable wall 
 				node.links[1] = nodes.FindIndex(x => x.col == node.col+2 && x.row == node.row);
-//				node.obstacles[1] = MapNumberToChar(map[node.row, node.col+1]);
+				node.obstacles[1] = MapNumberToChar(map[node.row, node.col+1]);
 			}
 			if(map[node.row+1, node.col] != 1) { // not unbreakeable wall 
 				node.links[2] = nodes.FindIndex(x => x.col == node.col && x.row == node.row+2);
-//				node.obstacles[2] = MapNumberToChar(map[node.row+1, node.col]);
+				node.obstacles[2] = MapNumberToChar(map[node.row+1, node.col]);
 			}
 			if(map[node.row, node.col-1] != 1) { // not unbreakeable wall 
 				node.links[3] = nodes.FindIndex(x => x.col == node.col-2 && x.row == node.row);
-//				node.obstacles[3] = MapNumberToChar(map[node.row, node.col-1]);
+				node.obstacles[3] = MapNumberToChar(map[node.row, node.col-1]);
 			}
 		}
 	}
@@ -483,7 +483,8 @@ public class Maze : MonoBehaviour {
 				{1,0,1,1,1,1,1,0,1,0,1,1,1,1,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,1,1,1,1,1,1,1,0,1},
 				{1,0,0,0,1,0,0,0,1,0,0,0,1,10,1,0,1,0,1,0,0,0,1,0,0,0,0,0,0,0,1,0,1,0,0,0,1,0,0,0,0,0,1},
 				{1,1,1,0,1,0,1,1,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,1,1,1,1,0,1,0,1,1,1,0,1,0,1,1,1,1,1},
-				{1,33,0,0,1,0,0,0,0,0,0,0,23,0,1,0,23,0,0,0,1,7,0,0,1,6,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,29,1},
+				{1,33,0,0,1,0,0,0,0,0,0,0,23,0,1,0,23,0,0,0,1,7,0,0,1,44,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,29,1},
+                // Testing keys (change key back to ammo in this row later)
 				{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 			};
 			map = tmpMap;
