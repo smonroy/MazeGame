@@ -31,7 +31,7 @@ public class Maze : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		IntializeLevel(1);
+		InitializeLevel(1);
 		width = squareSize * map.GetLength (1);
 		height = squareSize * map.GetLength (0);
 		initialX = centerX - (width / 2);
@@ -283,7 +283,7 @@ public class Maze : MonoBehaviour {
 		}
 	}
 
-	private void IntializeLevel(int level) {
+	private void InitializeLevel(int level) {
 
 		// 0  = empty path in the maze
 		// 1  = unbreakeble walls

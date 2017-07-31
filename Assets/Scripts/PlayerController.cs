@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour {
     private Text txtKey;
     private Text txtGoldenKey;
     private AudioSource audSource;
-    private AudioClip audio;
+    private AudioClip clip;
     // Use this for initialization
     void Start () {
         canvas = GameObject.FindGameObjectWithTag("Canvas");
@@ -145,6 +145,7 @@ public class PlayerController : MonoBehaviour {
 					newAngle = 90;
 					break;
 				}
+
 				transform.eulerAngles = new Vector3 (0, 0, newAngle);
 				cDir = nDir;
 			}
@@ -161,6 +162,50 @@ public class PlayerController : MonoBehaviour {
                 }
 			}
 		}
+    }
+
+    public bool UseAmmo()
+    {
+        if (nBullets > 0)
+        {
+            nBullets--;
+            UpdateCanvas();
+            return true;
+        }
+        return false;
+    }
+
+    public bool UseBomb()
+    {
+        if (nBombs > 0)
+        {
+            nBombs--;
+            UpdateCanvas();
+            return true;
+        }
+        return false;
+    }
+
+    public bool UseKey()
+    {
+        if (nKeys > 0)
+        {
+            nKeys--;
+            UpdateCanvas();
+            return true;
+        }
+        return false;
+    }
+
+    public bool UseGoldenKey()
+    {
+        if (nGoldenKeys > 0)
+        {
+            nGoldenKeys--;
+            UpdateCanvas();
+            return true;
+        }
+        return false;
     }
 
     private void UpdateCanvas()
