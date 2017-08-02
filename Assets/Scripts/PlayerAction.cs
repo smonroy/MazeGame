@@ -36,14 +36,6 @@ public class PlayerAction : MonoBehaviour
                 bullet.GetComponent<Rigidbody2D>().velocity = transform.up * bulletSpeed;
             }
         }
-        else if (Input.GetKey(KeyCode.K)) // Use key
-        {
-            if (pc.TestKey() || pc.TestGoldenKey())
-            {
-                keyColl.enabled = true;
-                keyRend.enabled = true;
-            }
-        }
         else if (Input.GetKey(KeyCode.L)) // Lay bomb
         {
             if (pc.onBombSpot())
@@ -55,13 +47,18 @@ public class PlayerAction : MonoBehaviour
                 }
             }
         }
-
-        if (keyColl.enabled)
+        else if (Input.GetKey(KeyCode.K)) // Use key
+        {
+            if (pc.TestKey() || pc.TestGoldenKey())
+            {
+                keyColl.enabled = true;
+                keyRend.enabled = true;
+            }
+        }
+        else if (keyColl.enabled)
         {
             key.GetComponent<Collider2D>().enabled = false;
             key.GetComponent<Renderer>().enabled = false;
         }
     }
-
-    
 }

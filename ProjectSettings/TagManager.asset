@@ -12,6 +12,7 @@ TagManager:
   - Arrow
   - Canvas
   - Door
+  - GoldenDoor
   layers:
   - Default
   - TransparentFX

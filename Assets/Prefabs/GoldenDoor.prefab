@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 61935826239615872}
   m_Layer: 0
   m_Name: GoldenDoor
-  m_TagString: Untagged
+  m_TagString: GoldenDoor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
