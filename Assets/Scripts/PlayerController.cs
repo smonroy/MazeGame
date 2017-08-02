@@ -204,7 +204,8 @@ public class PlayerController : MonoBehaviour
 
     public bool onBombSpot()
     {
-        return (maze.nodes[dNode].obstacles[cDir] == 'W');
+        return (maze.nodes[dNode].obstacles[0] == 'W' || maze.nodes[dNode].obstacles[1] == 'W' ||
+            maze.nodes[dNode].obstacles[2] == 'W' || maze.nodes[dNode].obstacles[3] == 'W');
     }
 
     public void UseBomb()
