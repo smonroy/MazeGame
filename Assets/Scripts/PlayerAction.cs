@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ public class PlayerAction : MonoBehaviour
     GameObject key;
     Collider2D keyColl;
     Renderer keyRend;
+    public GameObject bombSprite;
 
     // Use this for initialization
     void Start()
@@ -34,7 +36,7 @@ public class PlayerAction : MonoBehaviour
                 bullet.GetComponent<Rigidbody2D>().velocity = transform.up * bulletSpeed;
             }
         }
-        else if (Input.GetKey(KeyCode.K)) //Use key
+        else if (Input.GetKey(KeyCode.K)) // Use key
         {
             if (pc.TestKey() || pc.TestGoldenKey())
             {
@@ -42,11 +44,15 @@ public class PlayerAction : MonoBehaviour
                 keyRend.enabled = true;
             }
         }
-        else if (Input.GetKey(KeyCode.L)) //Lay bomb
+        else if (Input.GetKey(KeyCode.L)) // Lay bomb
         {
-            if (pc.TestBomb())
+            if (pc.onBombSpot())
             {
-                pc.UseBomb();
+                if (pc.TestBomb())
+                {
+                    Instantiate(bombSprite, transform.position, Quaternion.identity);
+                    pc.UseBomb();
+                }
             }
         }
 
@@ -56,4 +62,6 @@ public class PlayerAction : MonoBehaviour
             key.GetComponent<Renderer>().enabled = false;
         }
     }
+
+    
 }

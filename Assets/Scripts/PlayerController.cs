@@ -202,6 +202,11 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
+    public bool onBombSpot()
+    {
+        return (maze.nodes[dNode].obstacles[cDir] == 'W');
+    }
+
     public void UseBomb()
     {
         nBombs--;
