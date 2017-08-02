@@ -16,8 +16,17 @@ public class DoorOpen : MonoBehaviour
     {
         if(other.gameObject.tag.Equals("Door"))
         {
-            pc.UseKey();
-            Destroy(other.gameObject);
+            if (pc.UseKey())
+            {
+                Destroy(other.gameObject);
+            }
+        }
+        else if(other.gameObject.tag.Equals("GoldenDoor"))
+        {
+            if (pc.UseGoldenKey())
+            {
+                Destroy(other.gameObject);
+            }
         }
     }
 }

@@ -193,45 +193,68 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-    public bool UseBomb()
+    public bool TestBomb()
     {
         if (nBombs > 0)
         {
-            nBombs--;
-            UpdateCanvas();
             return true;
         }
         return false;
+    }
+
+    public void UseBomb()
+    {
+        nBombs--;
+        UpdateCanvas();
     }
 
     public bool TestKey()
     {
         if (nKeys > 0)
         {
-			return true;
+            return true;
         }
         return false;
     }
 
-    public void UseKey()
+    public bool UseKey()
     {
         if (nKeys > 0)
         {
-			if (maze.nodes [dNode].obstacles [cDir] == 'D') 
-			{
-				int oDir = (cDir + 2) % 4;
-				maze.nodes [dNode].obstacles [cDir] = ' ';
-				maze.nodes[maze.nodes[dNode].links[cDir]].obstacles[oDir] = ' ';
-			}
+            if (maze.nodes[dNode].obstacles[cDir] == 'D')
+            {
+                int oDir = (cDir + 2) % 4;
+                maze.nodes[dNode].obstacles[cDir] = ' ';
+                maze.nodes[maze.nodes[dNode].links[cDir]].obstacles[oDir] = ' ';
+            }
             nKeys--;
             UpdateCanvas();
+            return true;
         }
+        return false;
     }
 
     public bool TestGoldenKey()
     {
         if (nGoldenKeys > 0)
         {
+            return true;
+        }
+        return false;
+    }
+
+    public bool UseGoldenKey()
+    {
+        if (nGoldenKeys > 0)
+        {
+            if (maze.nodes[dNode].obstacles[cDir] == 'G')
+            {
+                int oDir = (cDir + 2) % 4;
+                maze.nodes[dNode].obstacles[cDir] = ' ';
+                maze.nodes[maze.nodes[dNode].links[cDir]].obstacles[oDir] = ' ';
+            }
+            nGoldenKeys--;
+            UpdateCanvas();
             return true;
         }
         return false;

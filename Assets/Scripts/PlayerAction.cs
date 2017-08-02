@@ -26,7 +26,7 @@ public class PlayerAction : MonoBehaviour
     void Update()
     {
         //Debug.Log("ShootOffset: " + shootLoc.position);
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.J))
         {
             if (pc.UseAmmo())
             {
@@ -34,15 +34,23 @@ public class PlayerAction : MonoBehaviour
                 bullet.GetComponent<Rigidbody2D>().velocity = transform.up * bulletSpeed;
             }
         }
-        else if (Input.GetKey(KeyCode.K))
+        else if (Input.GetKey(KeyCode.K)) //Use key
         {
-            if (pc.TestKey())
+            if (pc.TestKey() || pc.TestGoldenKey())
             {
                 keyColl.enabled = true;
                 keyRend.enabled = true;
             }
         }
-        else if(keyColl.enabled)
+        else if (Input.GetKey(KeyCode.L)) //Lay bomb
+        {
+            if (pc.TestBomb())
+            {
+                pc.UseBomb();
+            }
+        }
+
+        if (keyColl.enabled)
         {
             key.GetComponent<Collider2D>().enabled = false;
             key.GetComponent<Renderer>().enabled = false;
