@@ -13,6 +13,8 @@ TagManager:
   - Canvas
   - Door
   - GoldenDoor
+  - BreakableWall
+  - PlayerBomb
   layers:
   - Default
   - TransparentFX
