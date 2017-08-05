@@ -335,7 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07c42d086cca446e8914761a3b95cc7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: 0.045
+  velocity: 0.05
   rotationVelocity: 40
   backStepsDead: 10
   bombIncrement: 1

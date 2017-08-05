@@ -53,7 +53,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 161d0f548e7c0bd4bbfaaa11d8698ab8, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.45
+  m_Volume: 0.16
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -136,7 +136,6 @@ MonoBehaviour:
   intervalExplosion: 2
   explosionAnimation: {fileID: 1393118135302710, guid: 9ab66a9c478a67e4594ac94ea0d2046e,
     type: 2}
-  node: 0
 --- !u!212 &212660960718848406
 SpriteRenderer:
   m_ObjectHideFlags: 1
