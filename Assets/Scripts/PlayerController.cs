@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 {
 
     public float velocity = 1f;
+	public float rotationVelocity = 1f;
 	public int backStepsDead;
     public int bombIncrement;
     public int bulletIncrement;
@@ -17,6 +18,8 @@ public class PlayerController : MonoBehaviour
 	private int cNode; // current node
 	private int dNode; // destination node
     private int cDir; // direction of the player's face
+	private float cAngle;
+	private float nAngle;
     private int nBombs;
     private int nBullets;
     private int nKeys;
@@ -53,12 +56,15 @@ public class PlayerController : MonoBehaviour
 
         maze = GameObject.Find("GameController").GetComponent<Maze>();
         anim = GetComponent<Animator>();
-        cNode = maze.initialNode;
+		anim.SetBool("PlayerIsWalking", false);
+		cNode = maze.initialNode;
         dNode = cNode;
         cDir = 0;
         nBombs = 0;
         nBullets = 0;
         nKeys = 0;
+		cAngle = 0;
+		nAngle = 0;
         nGoldenKeys = 0;
         UpdateCanvas();
     }
@@ -114,10 +120,25 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 pos = transform.position;
-        // make the move
+		if (cAngle != nAngle) 
+		{
+			Vector3 ang = transform.eulerAngles;
+			float angleDif = nAngle - ang.z;
+			if (angleDif > 180f) {
+				angleDif -= 360f;
+			}
+			if (angleDif < -180f) {
+				angleDif += 360f;
+			}	
+			ang.z += Mathf.Clamp (angleDif, -rotationVelocity, rotationVelocity);
+			transform.eulerAngles = ang;
+			if (transform.eulerAngles.z == nAngle) {
+				cAngle = nAngle;
+			}
+		}
         if (dNode != cNode)
         {
+			Vector3 pos = transform.position;
             pos.x += Mathf.Clamp(maze.nodes[dNode].x - pos.x, -velocity, velocity);
             pos.y += Mathf.Clamp(maze.nodes[dNode].y - pos.y, -velocity, velocity);
             transform.position = pos;
@@ -164,44 +185,29 @@ public class PlayerController : MonoBehaviour
                 audSource.Stop();
             }
         }
-        if (nDir != -1)
-        {
-            if (nDir != cDir)
+		if (nDir != -1) {
+			
+			if (cDir == nDir && cAngle == nAngle)
+			{
+				if (maze.nodes [cNode].links [nDir] != -1 && maze.nodes [cNode].obstacles [nDir] == ' ') {
+					dNode = maze.nodes [cNode].links [nDir];
+					anim.SetBool ("PlayerIsWalking", true);
+						
+					audSource.clip = maze.sounds [1];
+						
+					if (!audSource.isPlaying) {
+						audSource.Play ();
+					}
+				}
+			} 
+			else
             {
-                float newAngle = 0;
-                switch (nDir)
-                {
-                    case 0:
-                        newAngle = 0;
-                        break;
-                    case 1:
-                        newAngle = 270;
-                        break;
-                    case 2:
-                        newAngle = 180;
-                        break;
-                    case 3:
-                        newAngle = 90;
-                        break;
-                }
-
-                transform.eulerAngles = new Vector3(0, 0, newAngle);
+//				transform.eulerAngles = new Vector3(0, 0, maze.getAngle(nDir));
                 cDir = nDir;
+				nAngle = maze.getAngle (nDir);
             }
+		}
 
-            if (maze.nodes[cNode].links[nDir] != -1 && maze.nodes[cNode].obstacles[nDir] == ' ')
-            {
-                dNode = maze.nodes[cNode].links[nDir];
-                anim.SetBool("PlayerIsWalking", true);
-
-                audSource.clip = maze.sounds[1];
-
-                if (!audSource.isPlaying)
-                {
-                    audSource.Play();
-                }
-            }
-        }
     }
 
     public bool UseAmmo()

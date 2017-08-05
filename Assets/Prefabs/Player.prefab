@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 82554698658677200}
   - component: {fileID: 114177906928003502}
   - component: {fileID: 81551913747992706}
+  - component: {fileID: 58308817547054008}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -128,6 +129,21 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!58 &58308817547054008
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1150114599736772}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.185
 --- !u!61 &61250593911423404
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -159,7 +175,7 @@ BoxCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1150114599736772}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -320,6 +336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: 0.045
+  rotationVelocity: 40
   backStepsDead: 10
   bombIncrement: 1
   bulletIncrement: 3
