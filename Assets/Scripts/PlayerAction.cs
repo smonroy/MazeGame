@@ -6,13 +6,14 @@ using UnityEngine;
 public class PlayerAction : MonoBehaviour
 {
     public GameObject bulletPrefab;
-    private Transform shootLoc;
     public float bulletSpeed;
-    PlayerController pc;
-    GameObject key;
-    Collider2D keyColl;
-    Renderer keyRend;
-    public GameObject bombSprite;
+	public GameObject bombSprite;
+
+	private Transform shootLoc;
+    private PlayerController pc;
+    private GameObject key;
+    private Collider2D keyColl;
+    private Renderer keyRend;
 
     // Use this for initialization
     void Start()
@@ -36,14 +37,14 @@ public class PlayerAction : MonoBehaviour
                 bullet.GetComponent<Rigidbody2D>().velocity = transform.up * bulletSpeed;
             }
         }
-        else if (Input.GetKey(KeyCode.L)) // Lay bomb
+		else if (Input.GetKey(KeyCode.L) || Input.GetKey(KeyCode.B)) // Lay bomb
         {
             if (pc.onBombSpot())
             {
                 if (pc.TestBomb())
                 {
-                    Instantiate(bombSprite, transform.position, Quaternion.identity);
-                    pc.UseBomb();
+                    GameObject bomb = Instantiate(bombSprite, transform.position, Quaternion.identity);
+					bomb.GetComponent<BombScript> ().setNode(pc.GetNode ());
                 }
             }
         }

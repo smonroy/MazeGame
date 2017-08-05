@@ -8,12 +8,14 @@ public class PlayerController : MonoBehaviour
 {
 
     public float velocity = 1f;
+	public int backStepsDead;
     public int bombIncrement;
     public int bulletIncrement;
+	public GameObject pathMark;
 
-    private int cNode; // current node
-    private int dNode; // destination node
-    private int checkPointNode; // checkPoint;
+	private GameObject pathGroup;
+	private int cNode; // current node
+	private int dNode; // destination node
     private int cDir; // direction of the player's face
     private int nBombs;
     private int nBullets;
@@ -30,9 +32,13 @@ public class PlayerController : MonoBehaviour
     private Text txtGoldenKey;
     private AudioSource audSource;
     private AudioClip clip;
+	private Stack<PathStep> path = new Stack<PathStep>();
+	private bool updatePath = true;
+
     // Use this for initialization
     void Start()
     {
+		pathGroup = GameObject.Find("PathGroup");
         canvas = GameObject.FindGameObjectWithTag("Canvas");
         aux = canvas.transform.Find("txtAmmo");
         txtAmmo = aux.GetComponent<Text>();
@@ -49,7 +55,6 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
         cNode = maze.initialNode;
         dNode = cNode;
-        checkPointNode = cNode;
         cDir = 0;
         nBombs = 0;
         nBullets = 0;
@@ -64,35 +69,35 @@ public class PlayerController : MonoBehaviour
         {
             nBombs += bombIncrement;
             Destroy(other.gameObject);
-            checkPointNode = dNode;
         }
         if (other.tag == "Ammo")
         {
             nBullets += bulletIncrement;
             Destroy(other.gameObject);
-            checkPointNode = dNode;
         }
         if (other.tag == "Key")
         {
             nKeys++;
             Destroy(other.gameObject);
-            checkPointNode = dNode;
         }
         if (other.tag == "GoldenKey")
         {
             nGoldenKeys++;
             Destroy(other.gameObject);
-            checkPointNode = dNode;
         }
         if (other.tag == "Arrow" || other.tag == "Enemy")
         {
+			for (int i = Mathf.Min(backStepsDead, path.Count); i > 1; i--) {
+				Destroy (path.Pop ().mark);
+			}
             Vector3 pos = transform.position;
-            pos.x = maze.nodes[checkPointNode].x;
-            pos.y = maze.nodes[checkPointNode].y;
-            dNode = checkPointNode;
-            cNode = checkPointNode;
+			pos.x = maze.nodes[path.Peek().node].x;
+			pos.y = maze.nodes[path.Peek().node].y;
+			dNode = path.Peek().node;
+			cNode = path.Peek().node;
             transform.position = pos;
-            checkPointNode = dNode;
+			updatePath = true;
+			Destroy (path.Pop ().mark);
         }
         else
         {
@@ -116,11 +121,28 @@ public class PlayerController : MonoBehaviour
             pos.x += Mathf.Clamp(maze.nodes[dNode].x - pos.x, -velocity, velocity);
             pos.y += Mathf.Clamp(maze.nodes[dNode].y - pos.y, -velocity, velocity);
             transform.position = pos;
-        }
-        if (transform.position.x == maze.nodes[dNode].x && transform.position.y == maze.nodes[dNode].y)
-        {
-            cNode = dNode;
-        }
+			if (transform.position.x == maze.nodes [dNode].x && transform.position.y == maze.nodes [dNode].y) {
+				if (updatePath) {
+					if (path.Count == 0 || path.Peek ().node != dNode) {
+						float xPath = (maze.nodes [cNode].x + maze.nodes [dNode].x) / 2f;
+						float yPath = (maze.nodes [cNode].y + maze.nodes [dNode].y) / 2f;
+						float wPath = Mathf.Abs (maze.nodes [cNode].x - maze.nodes [dNode].x) + 0.01f;
+						float hPath = Mathf.Abs (maze.nodes [cNode].y - maze.nodes [dNode].y) + 0.01f;
+						GameObject mark = Instantiate (pathMark, new Vector3 (xPath, yPath, 0f), Quaternion.identity, pathGroup.transform);
+						mark.transform.localScale = new Vector3 (wPath, hPath, 0f);
+						mark.name = "Node" + cNode.ToString ();
+						path.Push (new PathStep (cNode, mark));
+					}
+				}
+				cNode = dNode;
+				updatePath = true;
+			} else {
+				if (path.Count > 0 && path.Peek ().node == dNode) {
+					Destroy (path.Pop ().mark);
+					updatePath = false;
+				}
+			}
+		} 
     }
 
     private void Update()
@@ -202,6 +224,11 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
+	public int GetNode()
+	{
+		return dNode;
+	}
+
     public bool onBombSpot()
     {
         return (maze.nodes[dNode].obstacles[0] == 'W' || maze.nodes[dNode].obstacles[1] == 'W' ||
@@ -273,4 +300,20 @@ public class PlayerController : MonoBehaviour
         txtKey.text = nKeys.ToString();
         txtGoldenKey.text = nGoldenKeys.ToString();
     }
+}
+
+public class PathStep
+{
+	public GameObject mark;
+	public int node;
+
+	public PathStep(int n) {
+		node = n;
+	}
+
+	public PathStep(int n, GameObject t) {
+		node = n;
+		mark = t;
+	}
+
 }

@@ -109,7 +109,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -136,6 +136,7 @@ MonoBehaviour:
   intervalExplosion: 2
   explosionAnimation: {fileID: 1393118135302710, guid: 9ab66a9c478a67e4594ac94ea0d2046e,
     type: 2}
+  node: 0
 --- !u!212 &212660960718848406
 SpriteRenderer:
   m_ObjectHideFlags: 1
