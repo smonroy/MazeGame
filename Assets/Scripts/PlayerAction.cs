@@ -45,6 +45,7 @@ public class PlayerAction : MonoBehaviour
                 {
                     GameObject bomb = Instantiate(bombSprite, transform.position, Quaternion.identity);
 					bomb.GetComponent<BombScript> ().setNode(pc.GetNode ());
+					pc.UseBomb();
                 }
             }
         }
