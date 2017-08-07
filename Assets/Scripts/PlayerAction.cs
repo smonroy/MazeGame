@@ -37,7 +37,7 @@ public class PlayerAction : MonoBehaviour
                 bullet.GetComponent<Rigidbody2D>().velocity = transform.up * bulletSpeed;
             }
         }
-		else if (Input.GetKey(KeyCode.L) || Input.GetKey(KeyCode.B)) // Lay bomb
+		else if (Input.GetKeyDown(KeyCode.L) || Input.GetKeyDown(KeyCode.B)) // Lay bomb
         {
             if (pc.onBombSpot())
             {
