@@ -202,8 +202,10 @@ public class PlayerController : MonoBehaviour
 			if (Input.GetKey(KeyCode.R)){
 				if (maze.nodes [cNode].done) {
 					for (int i = 0; i < 4; i++) {
-						if (maze.nodes [cNode].links [i] == path.Peek ().node) {
-							nDir = i;
+						if (path.Count > 0) {
+							if (maze.nodes [cNode].links [i] == path.Peek ().node) {
+								nDir = i;
+							}
 						}
 					}
 				}
