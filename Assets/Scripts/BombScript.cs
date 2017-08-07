@@ -28,6 +28,7 @@ public class BombScript : MonoBehaviour {
 				int oDir = (cDir + 2) % 4;
 				maze.nodes[node].obstacles[cDir] = ' ';
 				maze.nodes[maze.nodes[node].links[cDir]].obstacles[oDir] = ' ';
+				maze.SetDone (maze.nodes [node].links [cDir]);
 			}
 		}
     }

@@ -12,6 +12,8 @@ public class BulletHit : MonoBehaviour
             if(other.gameObject.tag.Equals("Enemy"))
             {
                 Destroy(other.gameObject);
+				PlayerController pc = GameObject.FindWithTag ("Player").GetComponent<PlayerController> ();
+				pc.enemyKilled ();
             }
         }
     }

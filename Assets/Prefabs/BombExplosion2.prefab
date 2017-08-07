@@ -29,7 +29,7 @@ GameObject:
   - component: {fileID: 58364641406937428}
   m_Layer: 0
   m_Name: BombExplosion2
-  m_TagString: Untagged
+  m_TagString: Explosion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bdaa4b075eca3d4b98c859f52b12d44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 2
+  lifeTime: 0.8
 --- !u!114 &114905717339934124
 MonoBehaviour:
   m_ObjectHideFlags: 1

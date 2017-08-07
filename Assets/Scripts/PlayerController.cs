@@ -33,15 +33,20 @@ public class PlayerController : MonoBehaviour
     private Text txtBomb;
     private Text txtKey;
     private Text txtGoldenKey;
+	private Text txtDoneNodes;
+	private Text txtEnemiesKilled;
     private AudioSource audSource;
     private AudioClip clip;
 	private Stack<PathStep> path = new Stack<PathStep>();
 	private bool updatePath = true;
+	private int enemiesKilled;
+	private int playerDeads;
 
     // Use this for initialization
     void Start()
     {
 		pathGroup = GameObject.Find("PathGroup");
+
         canvas = GameObject.FindGameObjectWithTag("Canvas");
         aux = canvas.transform.Find("txtAmmo");
         txtAmmo = aux.GetComponent<Text>();
@@ -51,6 +56,10 @@ public class PlayerController : MonoBehaviour
         txtKey = aux.GetComponent<Text>();
         aux = canvas.transform.Find("txtGoldenKey");
         txtGoldenKey = aux.GetComponent<Text>();
+		aux = canvas.transform.Find("txtDoneNodes");
+		txtDoneNodes = aux.GetComponent<Text>();
+		aux = canvas.transform.Find("txtEnemiesKilled");
+		txtEnemiesKilled = aux.GetComponent<Text>();
 
         audSource = this.GetComponent<AudioSource>();
 
@@ -66,6 +75,9 @@ public class PlayerController : MonoBehaviour
 		cAngle = 0;
 		nAngle = 0;
         nGoldenKeys = 0;
+		enemiesKilled = 0;
+		playerDeads = 0;
+		maze.SetDone (cNode);
         UpdateCanvas();
     }
 
@@ -75,23 +87,27 @@ public class PlayerController : MonoBehaviour
         {
             nBombs += bombIncrement;
             Destroy(other.gameObject);
+			maze.SetDone (dNode);
         }
         if (other.tag == "Ammo")
         {
             nBullets += bulletIncrement;
             Destroy(other.gameObject);
+			maze.SetDone (dNode);
         }
         if (other.tag == "Key")
         {
             nKeys++;
             Destroy(other.gameObject);
+			maze.SetDone (dNode);
         }
         if (other.tag == "GoldenKey")
         {
             nGoldenKeys++;
             Destroy(other.gameObject);
+			maze.SetDone (dNode);
         }
-        if (other.tag == "Arrow" || other.tag == "Enemy")
+		if (other.tag == "Arrow" || other.tag == "Enemy" || other.tag == "Explosion")
         {
 			for (int i = Mathf.Min(backStepsDead, path.Count); i > 1; i--) {
 				Destroy (path.Pop ().mark);
@@ -149,7 +165,7 @@ public class PlayerController : MonoBehaviour
 						float yPath = (maze.nodes [cNode].y + maze.nodes [dNode].y) / 2f;
 						float wPath = Mathf.Abs (maze.nodes [cNode].x - maze.nodes [dNode].x) + 0.01f;
 						float hPath = Mathf.Abs (maze.nodes [cNode].y - maze.nodes [dNode].y) + 0.01f;
-						GameObject mark = Instantiate (pathMark, new Vector3 (xPath, yPath, 0f), Quaternion.identity, pathGroup.transform);
+						GameObject mark = Instantiate (pathMark, new Vector3 (xPath, yPath, -1f), Quaternion.identity, pathGroup.transform);
 						mark.transform.localScale = new Vector3 (wPath, hPath, 0f);
 						mark.name = "Node" + cNode.ToString ();
 						path.Push (new PathStep (cNode, mark));
@@ -256,6 +272,11 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
+	public void enemyKilled(){
+		enemiesKilled++;
+		UpdateCanvas ();
+	}
+
     public bool UseKey()
     {
         if (nKeys > 0)
@@ -265,6 +286,7 @@ public class PlayerController : MonoBehaviour
                 int oDir = (cDir + 2) % 4;
                 maze.nodes[dNode].obstacles[cDir] = ' ';
                 maze.nodes[maze.nodes[dNode].links[cDir]].obstacles[oDir] = ' ';
+				maze.SetDone (maze.nodes [dNode].links [cDir]);
             }
             nKeys--;
             UpdateCanvas();
@@ -291,7 +313,8 @@ public class PlayerController : MonoBehaviour
                 int oDir = (cDir + 2) % 4;
                 maze.nodes[dNode].obstacles[cDir] = ' ';
                 maze.nodes[maze.nodes[dNode].links[cDir]].obstacles[oDir] = ' ';
-            }
+				maze.SetDone (maze.nodes [dNode].links [cDir]);
+			}
             nGoldenKeys--;
             UpdateCanvas();
             return true;
@@ -305,6 +328,8 @@ public class PlayerController : MonoBehaviour
         txtBomb.text = nBombs.ToString();
         txtKey.text = nKeys.ToString();
         txtGoldenKey.text = nGoldenKeys.ToString();
+		txtDoneNodes.text = maze.GetDoneNodes ().ToString();
+		txtEnemiesKilled.text = enemiesKilled.ToString ();
     }
 }
 

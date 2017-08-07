@@ -15,6 +15,7 @@ TagManager:
   - GoldenDoor
   - BreakableWall
   - PlayerBomb
+  - Explosion
   layers:
   - Default
   - TransparentFX

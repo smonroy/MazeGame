@@ -8,6 +8,7 @@ public class Maze : MonoBehaviour {
 	public GameObject wallsGroup;
 	public GameObject fogGroup;
 	public GameObject objectGroup;
+	public GameObject doneGroup;
 	public GameObject wallBlock;
 	public GameObject fogObject;
 	public GameObject[] mazeObjects;
@@ -28,6 +29,7 @@ public class Maze : MonoBehaviour {
 	private float sizeX;
 	private float sizeY;
 	private List<Wall> walls = new List<Wall>();
+	private int doneNodes;
 
 	// Use this for initialization
 	void Start () {
@@ -38,6 +40,7 @@ public class Maze : MonoBehaviour {
 		initialY = centerY - (height / 2);
 		sizeX = width / (map.GetLength(1));
 		sizeY = height / (map.GetLength(0));
+		doneNodes = 0;
 
 		// logic construction
 		AddWalls();
@@ -299,6 +302,42 @@ public class Maze : MonoBehaviour {
 		}
 	}
 
+	public void SetDone(int node, int fromNode = -1) {
+		int onlyWay = -1;
+		int nPaths = 0;
+
+		for (int i = 0; i < 4; i++) {
+			if (nodes [node].links [i] != -1) {
+				if (nodes [node].links [i] == fromNode) {
+					nPaths++;
+				} else {
+					if (nodes [node].obstacles [i] == ' ' && nodes [nodes [node].links [i]].done == false && nodes [nodes [node].links [i]].cObject == ' ' ) {
+						SetDone (nodes [node].links [i], node);
+					}
+					if (nodes [nodes [node].links [i]].done == false) {
+						nPaths++;
+						if (nodes [nodes [node].links [i]].cObject == ' ' && nodes [node].obstacles [i] == ' ') {
+							onlyWay = i;
+						}
+					}
+				}
+			}
+		}
+		if (nPaths <= 1) {
+			nodes[node].cObject = ' ';
+			nodes [node].done = true;
+			doneNodes++;
+			Instantiate (mazeObjects [0], new Vector3 (nodes [node].x, nodes [node].y, 0), Quaternion.identity, doneGroup.transform);
+			if (onlyWay != -1){
+				SetDone (nodes [node].links [onlyWay]);
+			}
+		}
+	}
+
+	public int GetDoneNodes(){
+		return doneNodes;
+	}
+
 	private void InitializeLevel(int level) {
 
 		// 0  = empty path in the maze
@@ -531,6 +570,8 @@ public class Node {
 	public float y;
 
 	public char initialObject;
+	public char cObject;
+	public bool done;
 
 	// links to others nodes
 	// 0 = up, 1 = right, 2 = down, 3 = left
@@ -548,5 +589,10 @@ public class Node {
 		links = new int[] {-1, -1, -1, -1};
 		obstacles = new char[] {' ', ' ', ' ', ' '};
 		initialObject = o;
+		cObject = ' ';
+		if (o == 'B' || o == 'K' || o == 'G'|| o == 'A') {
+			cObject = o;
+		}
+		done = false;
 	}
 }
