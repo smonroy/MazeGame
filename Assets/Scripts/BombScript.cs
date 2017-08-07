@@ -8,9 +8,11 @@ public class BombScript : MonoBehaviour {
 
 	private int node;
 	private Maze maze;
+	private PlayerController pc;
 
     void Start () {
 		maze = GameObject.Find("GameController").GetComponent<Maze>();
+		pc = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
 		StartCoroutine(interval());
     }
 
@@ -29,6 +31,7 @@ public class BombScript : MonoBehaviour {
 				maze.nodes[node].obstacles[cDir] = ' ';
 				maze.nodes[maze.nodes[node].links[cDir]].obstacles[oDir] = ' ';
 				maze.SetDone (maze.nodes [node].links [cDir]);
+				pc.UpdateCanvas ();
 			}
 		}
     }

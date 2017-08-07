@@ -120,6 +120,7 @@ public class PlayerController : MonoBehaviour
             transform.position = pos;
 			updatePath = true;
 			Destroy (path.Pop ().mark);
+			maze.SetDone (cNode);
         }
         else
         {
@@ -173,6 +174,9 @@ public class PlayerController : MonoBehaviour
 				}
 				cNode = dNode;
 				updatePath = true;
+				if (maze.SetDone (cNode)) {
+					UpdateCanvas ();
+				};
 			} else {
 				if (path.Count > 0 && path.Peek ().node == dNode) {
 					Destroy (path.Pop ().mark);
@@ -195,7 +199,16 @@ public class PlayerController : MonoBehaviour
                 nDir = 2;
             if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
                 nDir = 3;
-            if (nDir == -1)
+			if (Input.GetKey(KeyCode.R)){
+				if (maze.nodes [cNode].done) {
+					for (int i = 0; i < 4; i++) {
+						if (maze.nodes [cNode].links [i] == path.Peek ().node) {
+							nDir = i;
+						}
+					}
+				}
+			}
+			if (nDir == -1)
             {
                 anim.SetBool("PlayerIsWalking", false);
                 audSource.Stop();
@@ -322,7 +335,7 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-    private void UpdateCanvas()
+    public void UpdateCanvas()
     {
         txtAmmo.text = nBullets.ToString();
         txtBomb.text = nBombs.ToString();

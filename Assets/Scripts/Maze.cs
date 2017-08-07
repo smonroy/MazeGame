@@ -302,8 +302,8 @@ public class Maze : MonoBehaviour {
 		}
 	}
 
-	public void SetDone(int node, int fromNode = -1) {
-		int onlyWay = -1;
+	public bool SetDone(int node, int fromNode = -1) {
+//		int onlyWay = -1;
 		int nPaths = 0;
 
 		for (int i = 0; i < 4; i++) {
@@ -316,9 +316,9 @@ public class Maze : MonoBehaviour {
 					}
 					if (nodes [nodes [node].links [i]].done == false) {
 						nPaths++;
-						if (nodes [nodes [node].links [i]].cObject == ' ' && nodes [node].obstacles [i] == ' ') {
-							onlyWay = i;
-						}
+//						if (nodes [nodes [node].links [i]].cObject == ' ' && nodes [node].obstacles [i] == ' ') {
+//							onlyWay = i;
+//						}
 					}
 				}
 			}
@@ -328,10 +328,12 @@ public class Maze : MonoBehaviour {
 			nodes [node].done = true;
 			doneNodes++;
 			Instantiate (mazeObjects [0], new Vector3 (nodes [node].x, nodes [node].y, 0), Quaternion.identity, doneGroup.transform);
-			if (onlyWay != -1){
-				SetDone (nodes [node].links [onlyWay]);
-			}
+//			if (onlyWay != -1){
+//				SetDone (nodes [node].links [onlyWay]);
+//			}
+			return true;
 		}
+		return false;
 	}
 
 	public int GetDoneNodes(){
@@ -530,7 +532,7 @@ public class Maze : MonoBehaviour {
 				{1,0,1,0,1,1,1,1,1,1,1,0,1,0,1,1,1,1,1,0,1,1,1,0,1,1,1,0,1,0,1,1,1,0,1,1,1,0,1,0,1,0,1},
 				{1,0,0,0,1,6,0,0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,44,0,0,1,0,0,0,1,0,0,0,1},
 				{1,1,1,1,1,1,1,1,1,43,1,0,1,1,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1},
-				{1,0,0,0,43,0,43,0,43,0,1,0,1,29,1,0,0,0,0,0,1,0,1,29,1,0,0,0,23,0,0,0,0,0,1,0,1,0,0,0,0,0,1},
+				{1,0,43,0,43,0,43,0,0,0,1,0,1,29,1,0,0,0,0,0,1,0,1,29,1,0,0,0,23,0,0,0,0,0,1,0,1,0,0,0,0,0,1},
 				{1,0,1,1,1,1,1,1,1,43,1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,0,1,0,1,0,1,1,1,0,1},
 				{1,0,0,3,1,10,0,0,0,0,1,3,0,0,1,0,1,6,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1,0,1,0,1,0,0,33,1,0,1},
 				{1,0,1,0,1,1,1,1,1,1,1,1,1,0,1,0,1,1,1,1,1,1,1,0,1,0,1,1,1,1,1,0,1,0,1,0,1,1,1,1,1,0,1},
