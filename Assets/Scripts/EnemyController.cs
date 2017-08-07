@@ -22,7 +22,7 @@ public class EnemyController : MonoBehaviour {
 		pNode = hNode;
 		cDir = -1;
 	}
-	
+		
 	// Update is called once per frame
 	void FixedUpdate () {
 		if (dNode != cNode) {

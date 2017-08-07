@@ -313,6 +313,8 @@ MonoBehaviour:
   sounds:
   - {fileID: 8300000, guid: 22e423472bbc94845abf35b094821e23, type: 3}
   - {fileID: 8300000, guid: 52c10b7df84fc124da680caa1a4d31db, type: 3}
+  - {fileID: 8300000, guid: af4479194d92d47da9b8fab24d9f42dc, type: 3}
+  - {fileID: 8300000, guid: 8f2fb14c15f344d25a96d3f1295633be, type: 3}
   centerX: 0
   centerY: 0
   squareSize: 0.3

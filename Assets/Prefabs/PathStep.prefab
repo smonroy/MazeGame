@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 23642199870632714}
   m_Layer: 0
   m_Name: PathStep
-  m_TagString: GoldenDoor
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1

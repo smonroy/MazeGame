@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public int bombIncrement;
     public int bulletIncrement;
 	public GameObject pathMark;
+	public AudioClip[] sounds; // 0 - collect, 1 - footsteps
 
 	private GameObject pathGroup;
 	private int cNode; // current node
@@ -88,24 +89,36 @@ public class PlayerController : MonoBehaviour
             nBombs += bombIncrement;
             Destroy(other.gameObject);
 			maze.SetDone (dNode);
-        }
+			audSource.Stop();
+			audSource.clip = maze.sounds[0];
+			audSource.Play();
+			       }
         if (other.tag == "Ammo")
         {
             nBullets += bulletIncrement;
             Destroy(other.gameObject);
 			maze.SetDone (dNode);
-        }
+			audSource.Stop();
+			audSource.clip = maze.sounds[2];
+			audSource.Play();
+			       }
         if (other.tag == "Key")
         {
             nKeys++;
             Destroy(other.gameObject);
 			maze.SetDone (dNode);
+			audSource.Stop();
+			audSource.clip = maze.sounds[3];
+			audSource.Play();
         }
         if (other.tag == "GoldenKey")
         {
             nGoldenKeys++;
             Destroy(other.gameObject);
 			maze.SetDone (dNode);
+			audSource.Stop();
+			audSource.clip = maze.sounds[3];
+			audSource.Play();
         }
 		if (other.tag == "Arrow" || other.tag == "Enemy" || other.tag == "Explosion")
         {
@@ -128,9 +141,6 @@ public class PlayerController : MonoBehaviour
                 other.tag == "Ammo" || other.tag == "Key")
             {
                 UpdateCanvas();
-                audSource.Stop();
-                audSource.clip = maze.sounds[0];
-                audSource.Play();
             }
         }
     }
