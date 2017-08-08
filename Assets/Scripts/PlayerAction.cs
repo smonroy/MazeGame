@@ -62,5 +62,10 @@ public class PlayerAction : MonoBehaviour
             key.GetComponent<Collider2D>().enabled = false;
             key.GetComponent<Renderer>().enabled = false;
         }
+
+		if (Input.GetKeyDown (KeyCode.Z)) {
+			Camera ca = GameObject.FindWithTag ("MainCamera").GetComponent<Camera> ();
+			ca.orthographicSize = 9 - ca.orthographicSize;
+		}
     }
 }
