@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     public int bulletIncrement;
 	public GameObject pathMark;
 	public AudioClip[] sounds; // 0 - collect, 1 - footsteps
+	public int initialHealth;
+	public int totalHealth;
 
 	private GameObject pathGroup;
 	private int cNode; // current node
@@ -41,7 +43,10 @@ public class PlayerController : MonoBehaviour
 	private Stack<PathStep> path = new Stack<PathStep>();
 	private bool updatePath = true;
 	private int enemiesKilled;
-	private int playerDeads;
+	public int health;
+	private GameObject healthBar;
+	private GameObject healthBarRed;
+	private GameObject healthBarGreen;
 
     // Use this for initialization
     void Start()
@@ -63,6 +68,9 @@ public class PlayerController : MonoBehaviour
 		txtEnemiesKilled = aux.GetComponent<Text>();
 
         audSource = this.GetComponent<AudioSource>();
+		healthBar = transform.GetChild(2).gameObject;
+		healthBarRed = healthBar.transform.GetChild(0).gameObject;
+		healthBarGreen = healthBarRed.transform.GetChild (0).gameObject;
 
         maze = GameObject.Find("GameController").GetComponent<Maze>();
         anim = GetComponent<Animator>();
@@ -77,7 +85,7 @@ public class PlayerController : MonoBehaviour
 		nAngle = 0;
         nGoldenKeys = 0;
 		enemiesKilled = 0;
-		playerDeads = 0;
+		health = initialHealth;
 		maze.SetDone (cNode);
         UpdateCanvas();
     }
@@ -134,6 +142,12 @@ public class PlayerController : MonoBehaviour
 			updatePath = true;
 			Destroy (path.Pop ().mark);
 			maze.SetDone (cNode);
+			if (other.tag == "Enemy") {
+				health -= 2;
+			} else {
+				health -= 1;
+			}
+			UpdateHealthBar ();
         }
         else
         {
@@ -158,7 +172,11 @@ public class PlayerController : MonoBehaviour
 				angleDif += 360f;
 			}	
 			ang.z += Mathf.Clamp (angleDif, -rotationVelocity, rotationVelocity);
+
 			transform.eulerAngles = ang;
+			ang.z = 180f;
+			healthBar.transform.eulerAngles = ang;
+
 			if (transform.eulerAngles.z == nAngle) {
 				cAngle = nAngle;
 			}
@@ -195,6 +213,13 @@ public class PlayerController : MonoBehaviour
 			}
 		} 
     }
+
+	private void UpdateHealthBar() {
+		healthBarGreen.transform.localScale = new Vector3 (1f * health / totalHealth, 1, 1);
+		Vector3 pos = healthBarGreen.transform.localPosition;
+		pos.x = (0f + totalHealth - health) / totalHealth / 2f;
+		healthBarGreen.transform.localPosition = pos;
+	}
 
     private void Update()
     {

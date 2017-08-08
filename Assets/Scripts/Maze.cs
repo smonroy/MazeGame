@@ -304,7 +304,7 @@ public class Maze : MonoBehaviour {
 
 	public void ToggleDoneNodesMarks()
 	{
-		doneGroup.SetActive(!doneGroup.active);
+		doneGroup.SetActive(!doneGroup.activeSelf);
 	}
 
 	public bool SetDone(int node, int fromNode = -1) {
