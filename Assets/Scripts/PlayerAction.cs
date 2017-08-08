@@ -14,10 +14,12 @@ public class PlayerAction : MonoBehaviour
     private GameObject key;
     private Collider2D keyColl;
     private Renderer keyRend;
+	private Maze maze;
 
     // Use this for initialization
     void Start()
     {
+		maze = GameObject.Find("GameController").GetComponent<Maze>();
         pc = GetComponent<PlayerController>();
         shootLoc = transform.GetChild(0);
         key = transform.GetChild(1).gameObject;
@@ -67,5 +69,10 @@ public class PlayerAction : MonoBehaviour
 			Camera ca = GameObject.FindWithTag ("MainCamera").GetComponent<Camera> ();
 			ca.orthographicSize = 9 - ca.orthographicSize;
 		}
+
+		if (Input.GetKeyDown (KeyCode.C)) {
+			maze.ToggleDoneNodesMarks ();
+		}
+
     }
 }
