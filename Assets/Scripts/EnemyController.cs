@@ -12,7 +12,6 @@ public class EnemyController : MonoBehaviour {
 	private int cNode; // current node;
 	private int dNode; // destination node;
 	private int cDir; // current direction;
-	private Animator anim;
 
 	// Use this for initialization
 	void Start () {
@@ -22,8 +21,6 @@ public class EnemyController : MonoBehaviour {
 		dNode = hNode;
 		pNode = hNode;
 		cDir = -1;
-		anim = GetComponent<Animator> ();
-		anim.SetTrigger("EnemyIsWalking");
 	}
 		
 	// Update is called once per frame
