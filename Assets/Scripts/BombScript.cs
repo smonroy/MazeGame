@@ -5,6 +5,7 @@ using UnityEngine;
 public class BombScript : MonoBehaviour {
     public int intervalExplosion = 3;
     public GameObject explosionAnimation;
+    public float explosionLength = 0.8f;
 
 	private int node;
 	private Maze maze;
@@ -23,7 +24,9 @@ public class BombScript : MonoBehaviour {
         Destroy(this.gameObject);
 
         Vector3 spawnPosition = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
-        Instantiate(explosionAnimation, spawnPosition, Quaternion.identity);
+        GameObject explodeObj = Instantiate(explosionAnimation, spawnPosition, Quaternion.identity);
+        Destroy(explodeObj, explosionLength);
+
 		for (int cDir = 0; cDir < 4; cDir++)
 		{
 			if (maze.nodes[node].obstacles[cDir] == 'W') {

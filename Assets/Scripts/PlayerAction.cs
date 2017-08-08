@@ -51,7 +51,7 @@ public class PlayerAction : MonoBehaviour
                 }
             }
         }
-        else if (Input.GetKey(KeyCode.K)) // Use key
+        else if (Input.GetKeyDown(KeyCode.K)) // Use key
         {
             if (pc.TestKey() || pc.TestGoldenKey())
             {
@@ -59,7 +59,7 @@ public class PlayerAction : MonoBehaviour
                 keyRend.enabled = true;
             }
         }
-        else if (keyColl.enabled)
+        else if (Input.GetKeyUp(KeyCode.K))
         {
             key.GetComponent<Collider2D>().enabled = false;
             key.GetComponent<Renderer>().enabled = false;
