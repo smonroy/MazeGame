@@ -310,6 +310,7 @@ MonoBehaviour:
   - {fileID: 1340542031114988, guid: bd191c0af9cbc436ba8c4c4b80fb403f, type: 2}
   - {fileID: 1665904196065778, guid: 0c2949950ba9e144099ce827939eba2d, type: 2}
   - {fileID: 1525819540860228, guid: 46076bb2bdb9a4b30a3cca4064dad8f2, type: 2}
+  - {fileID: 1283640533277992, guid: dc541a258083e4ea9b182140680c44e3, type: 2}
   sounds:
   - {fileID: 8300000, guid: 22e423472bbc94845abf35b094821e23, type: 3}
   - {fileID: 8300000, guid: 52c10b7df84fc124da680caa1a4d31db, type: 3}

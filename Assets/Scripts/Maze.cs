@@ -11,7 +11,19 @@ public class Maze : MonoBehaviour {
 	public GameObject doneGroup;
 	public GameObject wallBlock;
 	public GameObject fogObject;
-	public GameObject[] mazeObjects;
+	public GameObject[] mazeObjects; 
+		// 0 - done mark (green checker)
+		// 1 - player
+		// 2 - Silver key
+		// 3 - Bomb
+		// 4 - Ammo
+		// 5 - Golden key
+		// 6 - Breakeble wall
+		// 7 - Door
+		// 8 - Golden door
+		// 9 - Enemy
+		// 10 - Turret base
+		// 11 Bomb mark
     public AudioClip[] sounds; // 0 - collect, 1 - footsteps, 2 - ammo collect, 3 - key collect
 	public float centerX = 10;
 	public float centerY = 10;
@@ -308,7 +320,6 @@ public class Maze : MonoBehaviour {
 	}
 
 	public bool SetDone(int node, int fromNode = -1) {
-//		int onlyWay = -1;
 		int nPaths = 0;
 
 		for (int i = 0; i < 4; i++) {
@@ -321,9 +332,12 @@ public class Maze : MonoBehaviour {
 					}
 					if (nodes [nodes [node].links [i]].done == false) {
 						nPaths++;
-//						if (nodes [nodes [node].links [i]].cObject == ' ' && nodes [node].obstacles [i] == ' ') {
-//							onlyWay = i;
-//						}
+					}
+					if (nodes [node].obstacles [i] == 'W') {
+						if (!nodes [node].bombMark) {
+							nodes [node].bombMark = true;
+							Instantiate (mazeObjects [11], new Vector3 (nodes [node].x, nodes [node].y, 0f), Quaternion.identity, objectGroup.transform);
+						}
 					}
 				}
 			}
@@ -333,9 +347,6 @@ public class Maze : MonoBehaviour {
 			nodes [node].done = true;
 			doneNodes++;
 			Instantiate (mazeObjects [0], new Vector3 (nodes [node].x, nodes [node].y, 0), Quaternion.identity, doneGroup.transform);
-//			if (onlyWay != -1){
-//				SetDone (nodes [node].links [onlyWay]);
-//			}
 			return true;
 		}
 		return false;
@@ -579,6 +590,7 @@ public class Node {
 	public char initialObject;
 	public char cObject;
 	public bool done;
+	public bool bombMark;
 
 	// links to others nodes
 	// 0 = up, 1 = right, 2 = down, 3 = left
@@ -601,5 +613,6 @@ public class Node {
 			cObject = o;
 		}
 		done = false;
+		bombMark = false;
 	}
 }

@@ -216,10 +216,11 @@ public class PlayerController : MonoBehaviour
                 }
                 cNode = dNode;
                 updatePath = true;
-                if (maze.SetDone(cNode))
-                {
-                    UpdateCanvas();
-                };
+				if (!maze.nodes[cNode].done) {
+					if (maze.SetDone (cNode)) {
+						UpdateCanvas ();
+					}
+				}
             }
             else
             {
@@ -254,17 +255,26 @@ public class PlayerController : MonoBehaviour
                 nDir = 3;
             if (Input.GetKey(KeyCode.R))
             {
-                if (maze.nodes[cNode].done)
+				if (maze.nodes[cNode].done && path.Count > 0)
                 {
-                    for (int i = 0; i < 4; i++)
-                    {
-                        if (path.Count > 0)
-                        {
-                            if (maze.nodes[cNode].links[i] == path.Peek().node)
-                            {
-                                nDir = i;
-                            }
-                        }
+					bool stop = false;
+					for (int i = 0; i < 4 && !stop; i++)
+                	{
+						if (maze.nodes [cNode].links [i] != -1) {
+							if (maze.nodes [cNode].links [i] == path.Peek ().node) {
+								if (!maze.nodes [maze.nodes [cNode].links [i]].done) {
+									stop = !maze.SetDone (maze.nodes [cNode].links [i]);
+								}
+								if (!stop) {
+									nDir = i;
+								}
+							} else {
+								if (!maze.nodes [maze.nodes [cNode].links [i]].done) {
+									stop = true;
+									nDir = -1;
+								}
+							}
+						}
                     }
                 }
             }

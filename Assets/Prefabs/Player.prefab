@@ -486,8 +486,8 @@ MonoBehaviour:
   bulletIncrement: 3
   pathMark: {fileID: 1688828839282252, guid: 827a92309770c4c19b2ae4c6b4b34803, type: 2}
   sounds: []
-  initialHealth: 10
-  totalHealth: 10
+  initialHealth: 20
+  totalHealth: 20
   health: 0
 --- !u!212 &212101479190854540
 SpriteRenderer:
