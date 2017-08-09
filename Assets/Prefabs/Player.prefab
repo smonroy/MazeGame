@@ -479,6 +479,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: 0.05
+  returnVelocity: 0.2
   rotationVelocity: 40
   backStepsDead: 10
   bombIncrement: 1
@@ -487,6 +488,7 @@ MonoBehaviour:
   sounds: []
   initialHealth: 10
   totalHealth: 10
+  health: 0
 --- !u!212 &212101479190854540
 SpriteRenderer:
   m_ObjectHideFlags: 1

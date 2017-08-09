@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 {
 
     public float velocity = 1f;
+	public float returnVelocity = 1f;
     public float rotationVelocity = 1f;
     public int backStepsDead;
     public int bombIncrement;
@@ -130,26 +131,29 @@ public class PlayerController : MonoBehaviour
         }
         if (other.tag == "Arrow" || other.tag == "Enemy" || other.tag == "Explosion")
         {
-            for (int i = Mathf.Min(backStepsDead, path.Count); i > 1; i--)
-            {
-                Destroy(path.Pop().mark);
-            }
-            Vector3 pos = transform.position;
-            pos.x = maze.nodes[path.Peek().node].x;
-            pos.y = maze.nodes[path.Peek().node].y;
-            dNode = path.Peek().node;
-            cNode = path.Peek().node;
-            transform.position = pos;
-			updatePath = true;
-			Destroy (path.Pop ().mark);
-			maze.SetDone (cNode);
-			if (other.tag == "Enemy") {
-				health -= 2;
-			} else {
-				health -= 1;
+			if (!Input.GetKey (KeyCode.R)) {
+				for (int i = Mathf.Min (backStepsDead, path.Count); i > 1; i--) {
+					Destroy (path.Pop ().mark);
+				}
+				Vector3 pos = transform.position;
+				pos.x = maze.nodes [path.Peek ().node].x;
+				pos.y = maze.nodes [path.Peek ().node].y;
+				dNode = path.Peek ().node;
+				cNode = path.Peek ().node;
+				transform.position = pos;
+				updatePath = true;
+				Destroy (path.Pop ().mark);
+				maze.SetDone (cNode);
+				if (other.tag == "Enemy") {
+					health -= 2;
+					Destroy (other.gameObject);
+					enemyKilled ();
+				} else {
+					health -= 1;
+				}
+				UpdateHealthBar ();
 			}
-			UpdateHealthBar ();
-        }
+		}
         else
         {
             if (other.tag == "GoldenKey" || other.tag == "Bomb" ||
@@ -186,8 +190,13 @@ public class PlayerController : MonoBehaviour
         if (dNode != cNode)
         {
             Vector3 pos = transform.position;
-            pos.x += Mathf.Clamp(maze.nodes[dNode].x - pos.x, -velocity, velocity);
-            pos.y += Mathf.Clamp(maze.nodes[dNode].y - pos.y, -velocity, velocity);
+			if (Input.GetKey (KeyCode.R)) {
+				pos.x += Mathf.Clamp (maze.nodes [dNode].x - pos.x, -returnVelocity, returnVelocity);
+				pos.y += Mathf.Clamp (maze.nodes [dNode].y - pos.y, -returnVelocity, returnVelocity);
+			} else {
+				pos.x += Mathf.Clamp (maze.nodes [dNode].x - pos.x, -velocity, velocity);
+				pos.y += Mathf.Clamp (maze.nodes [dNode].y - pos.y, -velocity, velocity);
+			}
             transform.position = pos;
             if (transform.position.x == maze.nodes[dNode].x && transform.position.y == maze.nodes[dNode].y)
             {
