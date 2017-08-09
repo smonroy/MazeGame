@@ -7,19 +7,19 @@ public class PlayerAction : MonoBehaviour
 {
     public GameObject bulletPrefab;
     public float bulletSpeed;
-	public GameObject bombSprite;
+    public GameObject bombSprite;
 
-	private Transform shootLoc;
+    private Transform shootLoc;
     private PlayerController pc;
     private GameObject key;
     private Collider2D keyColl;
     private Renderer keyRend;
-	private Maze maze;
+    private Maze maze;
 
     // Use this for initialization
     void Start()
     {
-		maze = GameObject.Find("GameController").GetComponent<Maze>();
+        maze = GameObject.Find("GameController").GetComponent<Maze>();
         pc = GetComponent<PlayerController>();
         shootLoc = transform.GetChild(0);
         key = transform.GetChild(1).gameObject;
@@ -39,15 +39,15 @@ public class PlayerAction : MonoBehaviour
                 bullet.GetComponent<Rigidbody2D>().velocity = transform.up * bulletSpeed;
             }
         }
-		else if (Input.GetKeyDown(KeyCode.L) || Input.GetKeyDown(KeyCode.B)) // Lay bomb
+        else if (Input.GetKeyDown(KeyCode.L) || Input.GetKeyDown(KeyCode.B)) // Lay bomb
         {
             if (pc.onBombSpot())
             {
                 if (pc.TestBomb())
                 {
                     GameObject bomb = Instantiate(bombSprite, transform.position, Quaternion.identity);
-					bomb.GetComponent<BombScript> ().setNode(pc.GetNode ());
-					pc.UseBomb();
+                    bomb.GetComponent<BombScript>().setNode(pc.GetNode());
+                    pc.UseBomb();
                 }
             }
         }
@@ -65,14 +65,16 @@ public class PlayerAction : MonoBehaviour
             key.GetComponent<Renderer>().enabled = false;
         }
 
-		if (Input.GetKeyDown (KeyCode.Z)) {
-			Camera ca = GameObject.FindWithTag ("MainCamera").GetComponent<Camera> ();
-			ca.orthographicSize = 9 - ca.orthographicSize;
-		}
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            Camera ca = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+            ca.orthographicSize = 9 - ca.orthographicSize;
+        }
 
-		if (Input.GetKeyDown (KeyCode.C)) {
-			maze.ToggleDoneNodesMarks ();
-		}
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            maze.ToggleDoneNodesMarks();
+        }
 
     }
 }

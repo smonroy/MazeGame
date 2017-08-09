@@ -209,7 +209,7 @@ public class PlayerController : MonoBehaviour
                         float wPath = Mathf.Abs(maze.nodes[cNode].x - maze.nodes[dNode].x) + 0.01f;
                         float hPath = Mathf.Abs(maze.nodes[cNode].y - maze.nodes[dNode].y) + 0.01f;
                         GameObject mark = Instantiate(pathMark, new Vector3(xPath, yPath, -1f), Quaternion.identity, pathGroup.transform);
-                        mark.transform.localScale = new Vector3(wPath, hPath, 0f);
+                        mark.transform.localScale = new Vector3(wPath, hPath, 0.1f);
                         mark.name = "Node" + cNode.ToString();
                         path.Push(new PathStep(cNode, mark));
                     }
