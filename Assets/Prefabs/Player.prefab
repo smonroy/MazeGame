@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 212112982240431952}
   - component: {fileID: 114152659691125558}
   - component: {fileID: 61250593911423404}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Key
   m_TagString: Key
   m_Icon: {fileID: 0}
@@ -486,8 +486,9 @@ MonoBehaviour:
   bulletIncrement: 3
   pathMark: {fileID: 1688828839282252, guid: 827a92309770c4c19b2ae4c6b4b34803, type: 2}
   sounds: []
-  initialHealth: 20
-  totalHealth: 20
+  initialHealth: 10
+  totalHealth: 10
+  healthIncrement: 3
   health: 0
 --- !u!212 &212101479190854540
 SpriteRenderer:

@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
 	public AudioClip[] sounds; // 0 - collect, 1 - footsteps
 	public int initialHealth;
 	public int totalHealth;
+	public int healthIncrement;
 
     private GameObject pathGroup;
     private int cNode; // current node
@@ -44,10 +45,13 @@ public class PlayerController : MonoBehaviour
 	private Stack<PathStep> path = new Stack<PathStep>();
 	private bool updatePath = true;
 	private int enemiesKilled;
-	public int health;
+	private int health;
 	private GameObject healthBar;
 	private GameObject healthBarRed;
 	private GameObject healthBarGreen;
+	private bool fastReturn;
+	private bool winTheGame;
+	private bool gameOver;
 
     // Use this for initialization
     void Start()
@@ -89,6 +93,8 @@ public class PlayerController : MonoBehaviour
 		health = initialHealth;
 		maze.SetDone (cNode);
         UpdateCanvas();
+		fastReturn = false;
+		winTheGame = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -102,6 +108,19 @@ public class PlayerController : MonoBehaviour
             audSource.clip = maze.sounds[0];
             audSource.Play();
         }
+		if (other.tag == "Medkit")
+		{
+			health += healthIncrement;
+			if(health > totalHealth) {
+				health = totalHealth;
+			}
+			Destroy(other.gameObject);
+			maze.SetDone(dNode);
+			audSource.Stop();
+			audSource.clip = maze.sounds[0];
+			audSource.Play();
+			UpdateHealthBar ();
+		}
         if (other.tag == "Ammo")
         {
             nBullets += bulletIncrement;
@@ -131,7 +150,7 @@ public class PlayerController : MonoBehaviour
         }
         if (other.tag == "Arrow" || other.tag == "Enemy" || other.tag == "Explosion")
         {
-			if (!Input.GetKey (KeyCode.R)) {
+			if (!fastReturn && !winTheGame) {
 				for (int i = Mathf.Min (backStepsDead, path.Count); i > 1; i--) {
 					Destroy (path.Pop ().mark);
 				}
@@ -144,12 +163,20 @@ public class PlayerController : MonoBehaviour
 				updatePath = true;
 				Destroy (path.Pop ().mark);
 				maze.SetDone (cNode);
+				health -= 1;
 				if (other.tag == "Enemy") {
-					health -= 2;
 					Destroy (other.gameObject);
 					enemyKilled ();
-				} else {
-					health -= 1;
+					if (nBullets == 0) {
+						health -= 2;
+					}
+				}
+				if (health < 0) {
+					health = 0;
+				}
+				if (health == 0) {
+					gameOver = true;
+					this.enabled = false;
 				}
 				UpdateHealthBar ();
 			}
@@ -190,7 +217,7 @@ public class PlayerController : MonoBehaviour
         if (dNode != cNode)
         {
             Vector3 pos = transform.position;
-			if (Input.GetKey (KeyCode.R)) {
+			if (fastReturn) {
 				pos.x += Mathf.Clamp (maze.nodes [dNode].x - pos.x, -returnVelocity, returnVelocity);
 				pos.y += Mathf.Clamp (maze.nodes [dNode].y - pos.y, -returnVelocity, returnVelocity);
 			} else {
@@ -253,29 +280,48 @@ public class PlayerController : MonoBehaviour
                 nDir = 2;
             if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
                 nDir = 3;
-            if (Input.GetKey(KeyCode.R))
+			if (Input.GetKeyDown (KeyCode.F)) {
+				if (maze.nodes[cNode].done && path.Count > 0) {
+					fastReturn = true;
+				}
+			}
+			if (!Input.GetKey (KeyCode.F) || !maze.nodes[cNode].done || path.Count == 0) {
+				fastReturn = false;
+			}
+
+			if (Input.GetKeyDown(KeyCode.F10)) {
+				if(nGoldenKeys == 0){
+					nGoldenKeys = 1;
+				}
+				Vector3 pos = transform.position;
+				pos.x = maze.nodes [31].x;
+				pos.y = maze.nodes [31].y;
+				dNode = 31;
+				cNode = 31;
+				transform.position = pos;
+				UpdateCanvas ();
+			}
+				
+			if (fastReturn)
             {
-				if (maze.nodes[cNode].done && path.Count > 0)
-                {
-					bool stop = false;
-					for (int i = 0; i < 4 && !stop; i++)
-                	{
-						if (maze.nodes [cNode].links [i] != -1) {
-							if (maze.nodes [cNode].links [i] == path.Peek ().node) {
-								if (!maze.nodes [maze.nodes [cNode].links [i]].done) {
-									stop = !maze.SetDone (maze.nodes [cNode].links [i]);
-								}
-								if (!stop) {
-									nDir = i;
-								}
-							} else {
-								if (!maze.nodes [maze.nodes [cNode].links [i]].done) {
-									stop = true;
-									nDir = -1;
-								}
+				bool stop = false;
+				for (int i = 0; i < 4 && !stop; i++)
+            	{
+					if (maze.nodes [cNode].links [i] != -1) {
+						if (maze.nodes [cNode].links [i] == path.Peek ().node) {
+							if (!maze.nodes [maze.nodes [cNode].links [i]].done) {
+								stop = !maze.SetDone (maze.nodes [cNode].links [i]);
+							}
+							if (!stop) {
+								nDir = i;
+							}
+						} else {
+							if (!maze.nodes [maze.nodes [cNode].links [i]].done) {
+								stop = true;
+								nDir = -1;
 							}
 						}
-                    }
+					}
                 }
             }
             if (nDir == -1)
@@ -397,10 +443,14 @@ public class PlayerController : MonoBehaviour
         {
             if (maze.nodes[dNode].obstacles[cDir] == 'G')
             {
-                int oDir = (cDir + 2) % 4;
-                maze.nodes[dNode].obstacles[cDir] = ' ';
-                maze.nodes[maze.nodes[dNode].links[cDir]].obstacles[oDir] = ' ';
-                maze.SetDone(maze.nodes[dNode].links[cDir]);
+				if (maze.nodes [dNode].links [cDir] == -1) {
+					winTheGame = true;
+				} else {
+					int oDir = (cDir + 2) % 4;
+					maze.nodes [dNode].obstacles [cDir] = ' ';
+					maze.nodes [maze.nodes [dNode].links [cDir]].obstacles [oDir] = ' ';
+					maze.SetDone (maze.nodes [dNode].links [cDir]);
+				}
             }
             nGoldenKeys--;
             UpdateCanvas();

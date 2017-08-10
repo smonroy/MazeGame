@@ -43,7 +43,7 @@ public class EnemyController : MonoBehaviour {
 			} else {
 				float topRand = 0f;
 				for (int i = 0; i < 4; i++) {
-					if (maze.nodes [cNode].links [i] != -1) {
+					if (maze.nodes [cNode].links [i] != -1 && maze.nodes[cNode].obstacles[i] == ' ') {
 						float cRand = Random.Range (1, 10);
 						if (cRand > topRand) {
 							topRand = cRand;

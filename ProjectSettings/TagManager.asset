@@ -16,6 +16,7 @@ TagManager:
   - BreakableWall
   - PlayerBomb
   - Explosion
+  - Medkit
   layers:
   - Default
   - TransparentFX
@@ -27,9 +28,9 @@ TagManager:
   - 
   - Player
   - BombMarks
-  - 
-  - 
-  - 
+  - KeyInHand
+  - Enemy
+  - Arrow
   - 
   - 
   - 

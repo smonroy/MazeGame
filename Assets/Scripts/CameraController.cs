@@ -26,7 +26,7 @@ public class CameraController : MonoBehaviour {
 				pos.y += Mathf.Clamp (player.transform.position.y - pos.y, -velocity, velocity);
 			}	
 			if (Mathf.Abs(player.transform.position.y-this.transform.position.y) > 2f*verticalLimit) {
-				pos.y += Mathf.Clamp (player.transform.position.y - pos.y, -2f*velocity, 2f*velocity);
+				pos.y += Mathf.Clamp (player.transform.position.y - pos.y, -10f*velocity, 10f*velocity);
 			}	
 			if (Mathf.Abs(player.transform.position.x-this.transform.position.x) > horizontalLimit) {
 				pos.x += Mathf.Clamp (player.transform.position.x - pos.x, -velocity, velocity);

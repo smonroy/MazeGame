@@ -23,7 +23,8 @@ public class Maze : MonoBehaviour {
 		// 8 - Golden door
 		// 9 - Enemy
 		// 10 - Turret base
-		// 11 Bomb mark
+		// 11 - Bomb mark
+		// 12 - Medkit
     public AudioClip[] sounds; // 0 - collect, 1 - footsteps, 2 - ammo collect, 3 - key collect
 	public float centerX = 10;
 	public float centerY = 10;
@@ -52,7 +53,7 @@ public class Maze : MonoBehaviour {
 		// section 3 - Wesley
 
 		// for testing porpouse we change the order of the sections
-		SwapSections (1, 3);
+//		SwapSections (1, 3);
 
 		width = squareSize * map.GetLength (1);
 		height = squareSize * map.GetLength (0);
@@ -98,6 +99,9 @@ public class Maze : MonoBehaviour {
 					break;
 				case 'B':
 					Instantiate(mazeObjects[3], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);
+					break;
+				case 'M':
+					Instantiate(mazeObjects[12], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);
 					break;
 				case 'A':
 					Instantiate(mazeObjects[4], new Vector3 (node.x, node.y, 0f), Quaternion.identity, objectGroup.transform);
@@ -314,6 +318,7 @@ public class Maze : MonoBehaviour {
 			case 33: return 'B';
 			case 29: return 'T';
 			case 07: return 'I';
+			case 15: return 'M';
 			// inter-nodes
 			case 23: return 'D';
 			case 53: return 'G';
@@ -395,13 +400,12 @@ public class Maze : MonoBehaviour {
 		// 43 = path with a breakeable wall
 		// 44 = path with a key
 		// 53 = path with a golden door
-
-		// temporaly values
-		// 15 = Tu 
-		// 48 = Tr
+		// 15 = path with a medkit
 
 		if (level == 1) {
 			int[,] tmpMap = new int[,] {
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 				{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,53,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 				{1,0,0,0,1,0,43,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,29,1},
 				{1,0,1,0,1,0,1,1,1,1,1,0,1,0,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,1},
@@ -457,7 +461,7 @@ public class Maze : MonoBehaviour {
 				{1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,1,1,23,1,1,1,1,1,43,1,0,1},
 				{1,0,1,3,1,29,1,0,1,0,1,44,0,0,1,0,0,0,0,29,1,0,1,29,1,0,1,0,1,0,1,0,1,0,0,0,43,0,0,0,1,3,1},
 				{1,0,1,0,1,0,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,0,1,1,1,0,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,0,1},
-				{1,0,1,0,0,0,1,0,1,0,0,0,1,0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,1,0,23,0,1,33,0,3,0,0,0,0,1,0,1},
+				{1,0,1,0,0,0,1,15,1,0,0,0,1,0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,1,0,23,0,1,33,0,3,0,0,0,0,1,0,1},
 				{1,1,1,1,1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,1,1,0,1,1,1,0,1,0,1,0,1,1,1,1,1,1,1,0,1,0,1},
 				{1,3,0,0,0,0,1,0,0,0,0,0,0,0,1,0,1,0,1,0,0,6,1,0,1,44,1,29,1,0,1,0,0,0,0,0,0,0,0,3,1,0,1},
 				{1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,0,1,1,1,1,1,0,1,0,1,1,1,0,1,1,1,1,1,1,1,0,1,0,1,0,1},
@@ -634,7 +638,7 @@ public class Node {
 		obstacles = new char[] {' ', ' ', ' ', ' '};
 		initialObject = o;
 		cObject = ' ';
-		if (o == 'B' || o == 'K' || o == 'G'|| o == 'A') {
+		if (o == 'B' || o == 'K' || o == 'G'|| o == 'A' || o == 'M') {
 			cObject = o;
 		}
 		done = false;
