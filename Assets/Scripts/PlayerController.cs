@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -40,6 +41,8 @@ public class PlayerController : MonoBehaviour
     private Text txtGoldenKey;
     private Text txtDoneNodes;
     private Text txtEnemiesKilled;
+	private Text txtCentralMessage;
+	private Text txtBottomMessage;
     private AudioSource audSource;
     private AudioClip clip;
 	private Stack<PathStep> path = new Stack<PathStep>();
@@ -71,11 +74,17 @@ public class PlayerController : MonoBehaviour
         txtDoneNodes = aux.GetComponent<Text>();
         aux = canvas.transform.Find("txtEnemiesKilled");
         txtEnemiesKilled = aux.GetComponent<Text>();
+		aux = canvas.transform.Find("txtCentralMessage");
+		txtCentralMessage = aux.GetComponent<Text>();
+		aux = canvas.transform.Find("txtBottomMessage");
+		txtBottomMessage = aux.GetComponent<Text>();
 
         audSource = this.GetComponent<AudioSource>();
 		healthBar = transform.GetChild(2).gameObject;
 		healthBarRed = healthBar.transform.GetChild(0).gameObject;
 		healthBarGreen = healthBarRed.transform.GetChild (0).gameObject;
+		health = initialHealth;
+		UpdateHealthBar ();
 
         maze = GameObject.Find("GameController").GetComponent<Maze>();
         anim = GetComponent<Animator>();
@@ -90,9 +99,10 @@ public class PlayerController : MonoBehaviour
         nAngle = 0;
         nGoldenKeys = 0;
 		enemiesKilled = 0;
-		health = initialHealth;
 		maze.SetDone (cNode);
         UpdateCanvas();
+		txtBottomMessage.text = "";
+		txtCentralMessage.text = "";
 		fastReturn = false;
 		winTheGame = false;
     }
@@ -175,8 +185,7 @@ public class PlayerController : MonoBehaviour
 					health = 0;
 				}
 				if (health == 0) {
-					gameOver = true;
-					this.enabled = false;
+					GameOver ();
 				}
 				UpdateHealthBar ();
 			}
@@ -267,8 +276,33 @@ public class PlayerController : MonoBehaviour
 		healthBarGreen.transform.localPosition = pos;
 	}
 
+	private void GameOver() {
+		txtCentralMessage.text = "Game Over!";
+		txtBottomMessage.text = "Press 'R' to restart";
+		gameOver = true;
+//		this.enabled = false;
+	}
+
+	private void WinTheGame() {
+		txtCentralMessage.text = "Congratulations!";
+		txtBottomMessage.text = "Press 'R' to restart";
+		winTheGame = true;
+	}
+
+	private void RestartTheGame() {
+		SceneManager.LoadScene (0);
+	}
+
     private void Update()
     {
+		if ((gameOver || winTheGame) && Input.GetKeyDown (KeyCode.R)) {
+			RestartTheGame ();
+		}
+
+		if (gameOver) {
+			return;
+		}
+
         int nDir = -1;
         if (cNode == dNode)
         {
@@ -441,10 +475,12 @@ public class PlayerController : MonoBehaviour
     {
         if (nGoldenKeys > 0)
         {
+			nGoldenKeys--;
+			UpdateCanvas();
             if (maze.nodes[dNode].obstacles[cDir] == 'G')
             {
-				if (maze.nodes [dNode].links [cDir] == -1) {
-					winTheGame = true;
+				if (maze.nodes [dNode].row<5) {
+					WinTheGame ();
 				} else {
 					int oDir = (cDir + 2) % 4;
 					maze.nodes [dNode].obstacles [cDir] = ' ';
@@ -452,9 +488,7 @@ public class PlayerController : MonoBehaviour
 					maze.SetDone (maze.nodes [dNode].links [cDir]);
 				}
             }
-            nGoldenKeys--;
-            UpdateCanvas();
-            return true;
+			return true;
         }
         return false;
     }

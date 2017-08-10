@@ -489,7 +489,6 @@ MonoBehaviour:
   initialHealth: 10
   totalHealth: 10
   healthIncrement: 3
-  health: 0
 --- !u!212 &212101479190854540
 SpriteRenderer:
   m_ObjectHideFlags: 1
