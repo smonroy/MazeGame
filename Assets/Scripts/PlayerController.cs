@@ -479,13 +479,12 @@ public class PlayerController : MonoBehaviour
 			UpdateCanvas();
             if (maze.nodes[dNode].obstacles[cDir] == 'G')
             {
+				int oDir = (cDir + 2) % 4;
+				maze.nodes [dNode].obstacles [cDir] = ' ';
+				maze.nodes [maze.nodes [dNode].links [cDir]].obstacles [oDir] = ' ';
+				maze.SetDone (maze.nodes [dNode].links [cDir]);
 				if (maze.nodes [dNode].row<5) {
 					WinTheGame ();
-				} else {
-					int oDir = (cDir + 2) % 4;
-					maze.nodes [dNode].obstacles [cDir] = ' ';
-					maze.nodes [maze.nodes [dNode].links [cDir]].obstacles [oDir] = ' ';
-					maze.SetDone (maze.nodes [dNode].links [cDir]);
 				}
             }
 			return true;
