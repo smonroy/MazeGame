@@ -55,8 +55,8 @@ public class Maze : MonoBehaviour
         // section 3 - Wesley
 
         // for testing porpouse we change the order of the sections
-   		SwapSections (1, 2);
-		SwapSections (2, 3);
+//   	SwapSections (1, 2);
+//		SwapSections (2, 3);
 
         width = squareSize * map.GetLength(1);
         height = squareSize * map.GetLength(0);
