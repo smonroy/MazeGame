@@ -136,6 +136,8 @@ MonoBehaviour:
   intervalExplosion: 2
   explosionAnimation: {fileID: 1393118135302710, guid: 9ab66a9c478a67e4594ac94ea0d2046e,
     type: 2}
+  explosionLength: 0.8
+  scoreValue: 50
 --- !u!212 &212660960718848406
 SpriteRenderer:
   m_ObjectHideFlags: 1

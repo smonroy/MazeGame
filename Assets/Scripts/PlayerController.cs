@@ -19,6 +19,11 @@ public class PlayerController : MonoBehaviour
 	public int initialHealth;
 	public int totalHealth;
 	public int healthIncrement;
+	public int enemyScoreValue = 10;
+	public int doorScoreValue = 50;
+	public int goldenDoorScoreValue = 200;
+	public int objectPickUpValue = 1;
+	public GameObject redFlash;
 
     private GameObject pathGroup;
     private int cNode; // current node
@@ -39,20 +44,23 @@ public class PlayerController : MonoBehaviour
     private Text txtBomb;
     private Text txtKey;
     private Text txtGoldenKey;
-    private Text txtDoneNodes;
-    private Text txtEnemiesKilled;
+    private Text txtScore;
+    private Text txtZoom;
 	private Text txtCentralMessage;
 	private Text txtBottomMessage;
+	private Text txtFastBack;
+	private Image imgFastBack;
     private AudioSource audSource;
     private AudioClip clip;
 	private Stack<PathStep> path = new Stack<PathStep>();
 	private bool updatePath = true;
-	private int enemiesKilled;
+	private int score;
 	private int health;
 	private GameObject healthBar;
 	private GameObject healthBarRed;
 	private GameObject healthBarGreen;
 	private bool fastReturn;
+	private bool enableFastBack;
 	private bool winTheGame;
 	private bool gameOver;
 
@@ -70,14 +78,19 @@ public class PlayerController : MonoBehaviour
         txtKey = aux.GetComponent<Text>();
         aux = canvas.transform.Find("txtGoldenKey");
         txtGoldenKey = aux.GetComponent<Text>();
-        aux = canvas.transform.Find("txtDoneNodes");
-        txtDoneNodes = aux.GetComponent<Text>();
-        aux = canvas.transform.Find("txtEnemiesKilled");
-        txtEnemiesKilled = aux.GetComponent<Text>();
+        aux = canvas.transform.Find("txtZoom");
+        txtZoom = aux.GetComponent<Text>();
+        aux = canvas.transform.Find("txtScore");
+        txtScore = aux.GetComponent<Text>();
 		aux = canvas.transform.Find("txtCentralMessage");
 		txtCentralMessage = aux.GetComponent<Text>();
 		aux = canvas.transform.Find("txtBottomMessage");
 		txtBottomMessage = aux.GetComponent<Text>();
+		aux = canvas.transform.Find("txtFastBack");
+		txtFastBack = aux.GetComponent<Text>();
+		aux = canvas.transform.Find("imgFastBack");
+		imgFastBack = aux.GetComponent<Image>();
+
 
         audSource = this.GetComponent<AudioSource>();
 		healthBar = transform.GetChild(2).gameObject;
@@ -98,19 +111,22 @@ public class PlayerController : MonoBehaviour
         cAngle = 0;
         nAngle = 0;
         nGoldenKeys = 0;
-		enemiesKilled = 0;
+		score = 0;
 		maze.SetDone (cNode);
         UpdateCanvas();
 		txtBottomMessage.text = "Welcome, find the exit of the maze!";
 		txtCentralMessage.text = "";
+		txtZoom.text = "Zoom out (z)";
 		fastReturn = false;
 		winTheGame = false;
+		enableFastBack = false;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Bomb")
         {
+			addScore(objectPickUpValue);
             nBombs += bombIncrement;
             Destroy(other.gameObject);
             maze.SetDone(dNode);
@@ -120,6 +136,7 @@ public class PlayerController : MonoBehaviour
         }
 		if (other.tag == "Medkit")
 		{
+			addScore(objectPickUpValue);
 			health += healthIncrement;
 			if(health > totalHealth) {
 				health = totalHealth;
@@ -133,6 +150,7 @@ public class PlayerController : MonoBehaviour
 		}
         if (other.tag == "Ammo")
         {
+			addScore(objectPickUpValue);
             nBullets += bulletIncrement;
             Destroy(other.gameObject);
             maze.SetDone(dNode);
@@ -142,6 +160,7 @@ public class PlayerController : MonoBehaviour
         }
         if (other.tag == "Key")
         {
+			addScore(objectPickUpValue);
             nKeys++;
             Destroy(other.gameObject);
             maze.SetDone(dNode);
@@ -151,6 +170,7 @@ public class PlayerController : MonoBehaviour
         }
         if (other.tag == "GoldenKey")
         {
+			addScore(objectPickUpValue);
             nGoldenKeys++;
             Destroy(other.gameObject);
             maze.SetDone(dNode);
@@ -161,6 +181,7 @@ public class PlayerController : MonoBehaviour
         if (other.tag == "Arrow" || other.tag == "Enemy" || other.tag == "Explosion")
         {
 			if (!fastReturn && !winTheGame) {
+				Instantiate (redFlash.transform, new Vector3 (0, 0, -2f), Quaternion.identity);
 				for (int i = Mathf.Min (backStepsDead, path.Count); i > 1; i--) {
 					Destroy (path.Pop ().mark);
 				}
@@ -254,8 +275,17 @@ public class PlayerController : MonoBehaviour
                 updatePath = true;
 				if (!maze.nodes[cNode].done) {
 					if (maze.SetDone (cNode)) {
+						enableFastBack = true;
 						UpdateCanvas ();
 					}
+				}
+				if (maze.nodes[cNode].done && path.Count > 0 && !enableFastBack) {
+					enableFastBack = true;
+					UpdateCanvas();
+				}
+				if ((!maze.nodes[cNode].done || path.Count == 0) && enableFastBack) {
+					enableFastBack = false;
+					UpdateCanvas();
 				}
             }
             else
@@ -291,6 +321,18 @@ public class PlayerController : MonoBehaviour
 	private void RestartTheGame() {
 		SceneManager.LoadScene (0);
 	}
+
+	public void ToggleZoom () {
+		Camera ca = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+		ca.orthographicSize = 9 - ca.orthographicSize;
+		if (ca.orthographicSize == 3) {
+			txtZoom.text = "Zoom out (z)";
+		} else {
+			txtZoom.text = "Zoom in (z)";
+		}
+		UpdateCanvas ();
+	}
+
 
     private void Update()
     {
@@ -462,7 +504,7 @@ public class PlayerController : MonoBehaviour
 
     public void enemyKilled()
     {
-        enemiesKilled++;
+		score+=enemyScoreValue;
         UpdateCanvas();
     }
 
@@ -478,6 +520,7 @@ public class PlayerController : MonoBehaviour
                 maze.SetDone(maze.nodes[dNode].links[cDir]);
             }
             nKeys--;
+			addScore (doorScoreValue);
             UpdateCanvas();
             return true;
         }
@@ -497,6 +540,7 @@ public class PlayerController : MonoBehaviour
     {
         if (nGoldenKeys > 0)
         {
+			addScore (goldenDoorScoreValue);
 			nGoldenKeys--;
 			UpdateCanvas();
             if (maze.nodes[dNode].obstacles[cDir] == 'G')
@@ -520,9 +564,16 @@ public class PlayerController : MonoBehaviour
         txtBomb.text = nBombs.ToString();
         txtKey.text = nKeys.ToString();
         txtGoldenKey.text = nGoldenKeys.ToString();
-        txtDoneNodes.text = maze.GetDoneNodes().ToString();
-        txtEnemiesKilled.text = enemiesKilled.ToString();
+		txtScore.text = (score*10).ToString ("D6");
+		txtFastBack.enabled = enableFastBack;
+		imgFastBack.enabled = enableFastBack;
     }
+
+	public void addScore(int s){
+		score += s;
+//		UpdateCanvas ();
+	}
+	
 }
 
 public class PathStep

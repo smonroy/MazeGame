@@ -489,6 +489,11 @@ MonoBehaviour:
   initialHealth: 10
   totalHealth: 10
   healthIncrement: 3
+  enemyScoreValue: 10
+  doorScoreValue: 50
+  goldenDoorScoreValue: 200
+  objectPickUpValue: 1
+  redFlash: {fileID: 1289906250440178, guid: 75f989e1de8224b869f1d4d0ec6f2052, type: 2}
 --- !u!212 &212101479190854540
 SpriteRenderer:
   m_ObjectHideFlags: 1

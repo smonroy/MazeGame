@@ -67,8 +67,7 @@ public class PlayerAction : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Camera ca = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
-            ca.orthographicSize = 9 - ca.orthographicSize;
+			pc.ToggleZoom ();
         }
 
         if (Input.GetKeyDown(KeyCode.C))

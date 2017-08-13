@@ -6,6 +6,7 @@ public class BombScript : MonoBehaviour {
     public int intervalExplosion = 3;
     public GameObject explosionAnimation;
     public float explosionLength = 0.8f;
+	public int scoreValue = 10;
 
 	private int node;
 	private Maze maze;
@@ -34,6 +35,7 @@ public class BombScript : MonoBehaviour {
 				maze.nodes[node].obstacles[cDir] = ' ';
 				maze.nodes[maze.nodes[node].links[cDir]].obstacles[oDir] = ' ';
 				maze.SetDone (maze.nodes [node].links [cDir]);
+				pc.addScore (scoreValue);
 				pc.UpdateCanvas ();
 			}
 		}

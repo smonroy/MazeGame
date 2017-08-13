@@ -43,6 +43,7 @@ public class Maze : MonoBehaviour
     private float sizeX;
     private float sizeY;
     private List<Wall> walls = new List<Wall>();
+	PlayerController pc;
     private int doneNodes;
 
     // Use this for initialization
@@ -64,8 +65,6 @@ public class Maze : MonoBehaviour
         initialY = centerY - (height / 2);
         sizeX = width / (map.GetLength(1));
         sizeY = height / (map.GetLength(0));
-        doneNodes = 0;
-
         // logic construction
         AddWalls();
         AddNodes();
@@ -75,6 +74,9 @@ public class Maze : MonoBehaviour
         CreateWalls();
         CreateFog();
         CreateObject();
+
+		pc = GameObject.FindGameObjectWithTag ("Player").GetComponent<PlayerController>();
+		doneNodes = 0;
     }
 
 
@@ -430,6 +432,8 @@ public class Maze : MonoBehaviour
             nodes[node].cObject = ' ';
             nodes[node].done = true;
             doneNodes++;
+//			pc.addScore (1);
+			pc.UpdateCanvas ();
             Instantiate(mazeObjects[0], new Vector3(nodes[node].x, nodes[node].y, 0), Quaternion.identity, doneGroup.transform);
             return true;
         }
