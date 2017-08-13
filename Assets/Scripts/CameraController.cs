@@ -22,11 +22,10 @@ public class CameraController : MonoBehaviour {
 			}
 		} else {
 			Vector3 pos = transform.position;
+			float verticalIncrement;
 			if (Mathf.Abs(player.transform.position.y-this.transform.position.y) > verticalLimit) {
-				pos.y += Mathf.Clamp (player.transform.position.y - pos.y, -velocity, velocity);
-			}	
-			if (Mathf.Abs(player.transform.position.y-this.transform.position.y) > 2f*verticalLimit) {
-				pos.y += Mathf.Clamp (player.transform.position.y - pos.y, -10f*velocity, 10f*velocity);
+				verticalIncrement = Mathf.Abs (player.transform.position.y - this.transform.position.y) / verticalLimit * velocity;
+				pos.y += Mathf.Clamp (player.transform.position.y - pos.y, -verticalIncrement, verticalIncrement);
 			}	
 			if (Mathf.Abs(player.transform.position.x-this.transform.position.x) > horizontalLimit) {
 				pos.x += Mathf.Clamp (player.transform.position.x - pos.x, -velocity, velocity);
