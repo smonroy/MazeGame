@@ -31,7 +31,7 @@ public class PlayerAction : MonoBehaviour
     void Update()
     {
         //Debug.Log("ShootOffset: " + shootLoc.position);
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             if (pc.UseAmmo())
             {
@@ -39,11 +39,11 @@ public class PlayerAction : MonoBehaviour
                 bullet.GetComponent<Rigidbody2D>().velocity = transform.up * bulletSpeed;
             }
         }
-        else if (Input.GetKeyDown(KeyCode.L) || Input.GetKeyDown(KeyCode.B)) // Lay bomb
+        else if (Input.GetKeyDown(KeyCode.B)) 
         {
-            if (pc.onBombSpot())
+			if (pc.TestBomb())
             {
-                if (pc.TestBomb())
+				if (pc.onBombSpot())
                 {
                     GameObject bomb = Instantiate(bombSprite, transform.position, Quaternion.identity);
                     bomb.GetComponent<BombScript>().setNode(pc.GetNode());
@@ -53,11 +53,13 @@ public class PlayerAction : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.K)) // Use key
         {
-            if (pc.TestKey() || pc.TestGoldenKey())
+			if (pc.TestGoldenKey() || pc.TestKey())
             {
                 keyColl.enabled = true;
                 keyRend.enabled = true;
-            }
+			} else {
+				pc.setMessage("You are lack of keys, you need to collect a key");
+			}
         }
         else if (Input.GetKeyUp(KeyCode.K))
         {

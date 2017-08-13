@@ -221,6 +221,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+	public void setMessage(String s){
+		txtBottomMessage.text = s;
+	}
+
     private void FixedUpdate()
     {
 		if (cAngle != nAngle)
@@ -458,12 +462,13 @@ public class PlayerController : MonoBehaviour
 
     public bool UseAmmo()
     {
-        if (nBullets > 0)
-        {
-            nBullets--;
-            UpdateCanvas();
-            return true;
-        }
+		if (nBullets > 0) {
+			nBullets--;
+			UpdateCanvas ();
+			return true;
+		} else {
+			txtBottomMessage.text = "You are lack of ammo, you need to collect ammo boxes!";
+		}
         return false;
     }
 
@@ -472,6 +477,8 @@ public class PlayerController : MonoBehaviour
         if (nBombs > 0)
         {
             return true;
+		} else {
+			txtBottomMessage.text = "You are lack of bombs, you need to collect bombs!";
         }
         return false;
     }
@@ -483,8 +490,12 @@ public class PlayerController : MonoBehaviour
 
     public bool onBombSpot()
     {
-        return (maze.nodes[dNode].obstacles[0] == 'W' || maze.nodes[dNode].obstacles[1] == 'W' ||
-            maze.nodes[dNode].obstacles[2] == 'W' || maze.nodes[dNode].obstacles[3] == 'W');
+		if (maze.nodes [dNode].obstacles [0] == 'W' || maze.nodes [dNode].obstacles [1] == 'W' ||
+		         maze.nodes [dNode].obstacles [2] == 'W' || maze.nodes [dNode].obstacles [3] == 'W') {
+			return true;
+		} 
+		txtBottomMessage.text = "You can not drop a bomb here, you need to find a breakable wall.";
+		return false;
     }
 
     public void UseBomb()
@@ -532,7 +543,7 @@ public class PlayerController : MonoBehaviour
         if (nGoldenKeys > 0)
         {
             return true;
-        }
+		}
         return false;
     }
 
