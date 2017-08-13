@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour
 		enemiesKilled = 0;
 		maze.SetDone (cNode);
         UpdateCanvas();
-		txtBottomMessage.text = "";
+		txtBottomMessage.text = "Welcome, find the exit of the maze!";
 		txtCentralMessage.text = "";
 		fastReturn = false;
 		winTheGame = false;
@@ -280,7 +280,6 @@ public class PlayerController : MonoBehaviour
 		txtCentralMessage.text = "Game Over!";
 		txtBottomMessage.text = "Press 'R' to restart";
 		gameOver = true;
-//		this.enabled = false;
 	}
 
 	private void WinTheGame() {
@@ -369,17 +368,40 @@ public class PlayerController : MonoBehaviour
 
             if (cDir == nDir && cAngle == nAngle)
             {
-                if (maze.nodes[cNode].links[nDir] != -1 && maze.nodes[cNode].obstacles[nDir] == ' ')
-                {
-                    dNode = maze.nodes[cNode].links[nDir];
-                    anim.SetBool("PlayerIsWalking", true);
+				if (maze.nodes[cNode].links[nDir] != -1) {
+					if (maze.nodes [cNode].obstacles [nDir] == ' ') {
+						dNode = maze.nodes [cNode].links [nDir];
+						anim.SetBool ("PlayerIsWalking", true);
+						if (!winTheGame) {
+							txtBottomMessage.text = "";
+						}
+						audSource.clip = maze.sounds [1];
 
-                    audSource.clip = maze.sounds[1];
-
-                    if (!audSource.isPlaying)
-                    {
-                        audSource.Play();
-                    }
+						if (!audSource.isPlaying) {
+							audSource.Play ();
+						}
+					} 
+					if (maze.nodes [cNode].obstacles [nDir] == 'W') {
+						if (nBombs == 0) {
+							txtBottomMessage.text = "You need a bomb to pass through this breakable wall.";
+						} else {
+							txtBottomMessage.text = "You can use a bomb with 'B' to pass through this breakable wall.";
+						}
+					}
+					if (maze.nodes [cNode].obstacles [nDir] == 'D') {
+						if (nKeys == 0) {
+							txtBottomMessage.text = "You need a key to pass through this door.";
+						} else {
+							txtBottomMessage.text = "You can use a key with 'k' to pass through this door.";
+						}
+					}
+					if (maze.nodes [cNode].obstacles [nDir] == 'G') {
+						if (nGoldenKeys == 0) {
+							txtBottomMessage.text = "You need a golden key to pass through this door.";
+						} else {
+							txtBottomMessage.text = "You can use a golden key with 'k' to pass through this door.";
+						}
+					}
                 }
             }
             else
