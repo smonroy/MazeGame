@@ -85,13 +85,14 @@ public class Maze : MonoBehaviour
         foreach (Wall wall in walls)
         {
             GameObject newWall = Instantiate(wallBlock, new Vector3(wall.x, wall.y, 0f), Quaternion.identity, wallsGroup.transform);
-            newWall.transform.localScale = new Vector3(wall.width, wall.height, 0.1f);
+//            newWall.transform.localScale = new Vector3(wall.width, wall.height, 0.1f);
+			newWall.GetComponent<SpriteRenderer>().size = new Vector2 (wall.width, wall.height);
         }
     }
 
     private void CreateFog()
     {
-        for (int i = 0; i < 2500; i++)
+        for (int i = 0; i < 1000; i++)
         {
             Instantiate(fogObject, new Vector3(Random.Range(initialX, initialX + width), Random.Range(initialY, initialY + height), -1f), Quaternion.identity, fogGroup.transform);
         }
@@ -149,6 +150,7 @@ public class Maze : MonoBehaviour
                 else
                 {
                     widthFactor = 0.4f;
+//					widthFactor = 1f;
                 }
                 GameObject newObstacle;
                 float oWidth, oHeight, oX, oY;
@@ -170,15 +172,17 @@ public class Maze : MonoBehaviour
                 switch (node.obstacles[dir])
                 {
                     case 'W':
-                        newObstacle = Instantiate(mazeObjects[6], new Vector3(oX, oY, 0f), Quaternion.identity, objectGroup.transform);
-                        newObstacle.transform.localScale = new Vector3(oWidth, oHeight, 0.1f);
+                        newObstacle = Instantiate(mazeObjects[6], new Vector3(oX, oY, 0.1f), Quaternion.identity, objectGroup.transform);
+//                        newObstacle.transform.localScale = new Vector3(oWidth, oHeight, 0.1f);
+						newObstacle.GetComponent<SpriteRenderer>().size = new Vector2 (oWidth, oHeight);
                         break;
                     case 'D':
-                        newObstacle = Instantiate(mazeObjects[7], new Vector3(oX, oY, 0f), Quaternion.identity, objectGroup.transform);
+                        newObstacle = Instantiate(mazeObjects[7], new Vector3(oX, oY, 0.1f), Quaternion.identity, objectGroup.transform);
                         newObstacle.transform.localScale = new Vector3(oWidth, oHeight, 0.1f);
+//						newObstacle.GetComponent<SpriteRenderer>().size = new Vector2 (oWidth, oHeight);
                         break;
                     case 'G':
-                        newObstacle = Instantiate(mazeObjects[8], new Vector3(oX, oY, 0f), Quaternion.identity, objectGroup.transform);
+                        newObstacle = Instantiate(mazeObjects[8], new Vector3(oX, oY, 0.1f), Quaternion.identity, objectGroup.transform);
                         newObstacle.transform.localScale = new Vector3(oWidth, oHeight, 0.1f);
                         break;
                 }
