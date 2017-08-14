@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
 	private GameObject healthBar;
 	private GameObject healthBarRed;
 	private GameObject healthBarGreen;
+	private GameObject fastBackThunder;
 	private bool fastReturn;
 	private bool enableFastBack;
 	private bool winTheGame;
@@ -96,6 +97,7 @@ public class PlayerController : MonoBehaviour
 		healthBar = transform.GetChild(2).gameObject;
 		healthBarRed = healthBar.transform.GetChild(0).gameObject;
 		healthBarGreen = healthBarRed.transform.GetChild (0).gameObject;
+		fastBackThunder = transform.GetChild (3).gameObject;
 		health = initialHealth;
 		UpdateHealthBar ();
 
@@ -242,6 +244,8 @@ public class PlayerController : MonoBehaviour
 			transform.eulerAngles = ang;
 			ang.z = 180f;
 			healthBar.transform.eulerAngles = ang;
+			fastBackThunder.transform.eulerAngles = ang;
+
 
 			if (transform.eulerAngles.z == nAngle) {
 				cAngle = nAngle;
@@ -297,12 +301,9 @@ public class PlayerController : MonoBehaviour
 						}
 					}					
 					enableFastBack = !stop;
+					fastBackThunder.GetComponent<SpriteRenderer> ().enabled = !stop;
 					UpdateCanvas();
 				}
-//				if ((!maze.nodes[cNode].done || path.Count == 0) && enableFastBack) {
-//					enableFastBack = false;
-//					UpdateCanvas();
-//				}
             }
             else
             {
@@ -324,13 +325,13 @@ public class PlayerController : MonoBehaviour
 
 	private void GameOver() {
 		txtCentralMessage.text = "Game Over!";
-		txtBottomMessage.text = "Press 'R' to restart";
+		txtBottomMessage.text = "Press 'r' to restart";
 		gameOver = true;
 	}
 
 	private void WinTheGame() {
 		txtCentralMessage.text = "Congratulations!";
-		txtBottomMessage.text = "Press 'R' to restart";
+		txtBottomMessage.text = "Press 'r' to restart";
 		winTheGame = true;
 	}
 
@@ -465,14 +466,14 @@ public class PlayerController : MonoBehaviour
 						if (nKeys == 0) {
 							txtBottomMessage.text = "You need a key to pass through this door.";
 						} else {
-							txtBottomMessage.text = "You can use a key with 'k' to pass through this door.";
+							txtBottomMessage.text = "You can use a key with 'g' or 'k' to pass through this door.";
 						}
 					}
 					if (maze.nodes [cNode].obstacles [nDir] == 'G') {
 						if (nGoldenKeys == 0) {
 							txtBottomMessage.text = "You need a golden key to pass through this door.";
 						} else {
-							txtBottomMessage.text = "You can use a golden key with 'k' to pass through this door.";
+							txtBottomMessage.text = "You can use a golden key with 'g' or 'k' to pass through this door.";
 						}
 					}
                 }

@@ -45,13 +45,13 @@ public class PlayerAction : MonoBehaviour
             {
 				if (pc.onBombSpot())
                 {
-					GameObject bomb = Instantiate(bombSprite, new Vector3(transform.position.x, transform.position.y, 0.5f), Quaternion.identity);
+					GameObject bomb = Instantiate(bombSprite, new Vector3(transform.position.x, transform.position.y, -0.5f), Quaternion.identity);
                     bomb.GetComponent<BombScript>().setNode(pc.GetNode());
                     pc.UseBomb();
                 }
             }
         }
-        else if (Input.GetKeyDown(KeyCode.K)) // Use key
+		else if (Input.GetKeyDown(KeyCode.K) || Input.GetKeyDown(KeyCode.G)) // Use key
         {
 			if (pc.TestGoldenKey() || pc.TestKey())
             {
