@@ -92,7 +92,7 @@ public class Maze : MonoBehaviour
 
     private void CreateFog()
     {
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 2000; i++)
         {
             Instantiate(fogObject, new Vector3(Random.Range(initialX, initialX + width), Random.Range(initialY, initialY + height), -1f), Quaternion.identity, fogGroup.transform);
         }
