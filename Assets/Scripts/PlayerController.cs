@@ -278,19 +278,31 @@ public class PlayerController : MonoBehaviour
                 cNode = dNode;
                 updatePath = true;
 				if (!maze.nodes[cNode].done) {
-					if (maze.SetDone (cNode)) {
-						enableFastBack = true;
-						UpdateCanvas ();
-					}
+					maze.SetDone (cNode);
 				}
-				if (maze.nodes[cNode].done && path.Count > 0 && !enableFastBack) {
-					enableFastBack = true;
+				if (maze.nodes[cNode].done && path.Count > 0 /* && !enableFastBack */) {
+					bool stop = false;
+					for (int i = 0; i < 4 && !stop; i++)
+					{
+						if (maze.nodes [cNode].links [i] != -1) {
+							if (maze.nodes [cNode].links [i] == path.Peek ().node) {
+								if (!maze.nodes [maze.nodes [cNode].links [i]].done) {
+									stop = !maze.SetDone (maze.nodes [cNode].links [i]);
+								}
+							} else {
+								if (!maze.nodes [maze.nodes [cNode].links [i]].done) {
+									stop = true;
+								}
+							}
+						}
+					}					
+					enableFastBack = !stop;
 					UpdateCanvas();
 				}
-				if ((!maze.nodes[cNode].done || path.Count == 0) && enableFastBack) {
-					enableFastBack = false;
-					UpdateCanvas();
-				}
+//				if ((!maze.nodes[cNode].done || path.Count == 0) && enableFastBack) {
+//					enableFastBack = false;
+//					UpdateCanvas();
+//				}
             }
             else
             {
@@ -361,7 +373,22 @@ public class PlayerController : MonoBehaviour
                 nDir = 3;
 			if (Input.GetKeyDown (KeyCode.F)) {
 				if (maze.nodes[cNode].done && path.Count > 0) {
-					fastReturn = true;
+					bool stop = false;
+					for (int i = 0; i < 4 && !stop; i++)
+					{
+						if (maze.nodes [cNode].links [i] != -1) {
+							if (maze.nodes [cNode].links [i] == path.Peek ().node) {
+								if (!maze.nodes [maze.nodes [cNode].links [i]].done) {
+									stop = !maze.SetDone (maze.nodes [cNode].links [i]);
+								}
+							} else {
+								if (!maze.nodes [maze.nodes [cNode].links [i]].done) {
+									stop = true;
+								}
+							}
+						}
+					}					
+					fastReturn = !stop;
 				}
 			}
 			if (!Input.GetKey (KeyCode.F) || !maze.nodes[cNode].done || path.Count == 0) {
