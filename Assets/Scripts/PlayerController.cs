@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour
 	private bool enableFastBack;
 	private bool winTheGame;
 	private bool gameOver;
+	private String quitMessage;
 
     // Use this for initialization
     void Start()
@@ -122,6 +123,7 @@ public class PlayerController : MonoBehaviour
 		fastReturn = false;
 		winTheGame = false;
 		enableFastBack = false;
+		quitMessage = "Press 'r' to restart the game, 'q' to quit the game, or move the player to continue playing.";
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -353,8 +355,18 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-		if ((gameOver || winTheGame) && Input.GetKeyDown (KeyCode.R)) {
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			txtBottomMessage.text = quitMessage;
+		}
+
+
+		if ((gameOver || winTheGame || txtBottomMessage.text == quitMessage) && Input.GetKeyDown (KeyCode.R)) {
 			RestartTheGame ();
+		}
+
+		if (txtBottomMessage.text == quitMessage && Input.GetKeyDown (KeyCode.Q)) {
+			Application.Quit();
 		}
 
 		if (gameOver) {
@@ -459,7 +471,7 @@ public class PlayerController : MonoBehaviour
 						if (nBombs == 0) {
 							txtBottomMessage.text = "You need a bomb to pass through this breakable wall.";
 						} else {
-							txtBottomMessage.text = "You can use a bomb with 'B' to pass through this breakable wall.";
+							txtBottomMessage.text = "You can use a bomb with 'b' to pass through this breakable wall.";
 						}
 					}
 					if (maze.nodes [cNode].obstacles [nDir] == 'D') {

@@ -392,12 +392,7 @@ public class Maze : MonoBehaviour
             default: return ' ';
         }
     }
-
-    public void ToggleDoneNodesMarks()
-    {
-        doneGroup.SetActive(!doneGroup.activeSelf);
-    }
-
+		
     public bool SetDone(int node, int fromNode = -1)
     {
         int nPaths = 0;

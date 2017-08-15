@@ -71,11 +71,6 @@ public class PlayerAction : MonoBehaviour
         {
 			pc.ToggleZoom ();
         }
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            maze.ToggleDoneNodesMarks();
-        }
-
+			
     }
 }
