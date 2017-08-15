@@ -61,7 +61,7 @@ public class PlayerAction : MonoBehaviour
 				pc.setMessage("You are lack of keys, you need to collect a key");
 			}
         }
-        else if (Input.GetKeyUp(KeyCode.K))
+		else if (Input.GetKeyUp(KeyCode.K) || Input.GetKeyUp(KeyCode.G))
         {
             key.GetComponent<Collider2D>().enabled = false;
             key.GetComponent<Renderer>().enabled = false;
