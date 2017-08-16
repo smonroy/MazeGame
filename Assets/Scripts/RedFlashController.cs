@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RedFlashController : MonoBehaviour {
+public class RedFlashController : MonoBehaviour
+{
+    public float time;
 
-	public float time;
-
-	void Start () {
-		StartCoroutine(timer());
-	}
-
-	IEnumerator timer()
-	{
-		yield return new WaitForSeconds(time);
-		Destroy(this.gameObject);
-	}
+    void Start()
+    {
+        Destroy(this.gameObject, time);
+    }
 }

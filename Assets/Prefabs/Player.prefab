@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 114177906928003502}
   - component: {fileID: 81551913747992706}
   - component: {fileID: 58308817547054008}
+  - component: {fileID: 114135600170251740}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -471,6 +472,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114135600170251740
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1150114599736772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cafdf327fac3444d8d99fd316274d4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  invincibleLength: 2
 --- !u!114 &114152659691125558
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -564,6 +577,8 @@ SpriteRenderer:
   m_Size: {x: 0.42, y: 0.29}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!212 &212112982240431952
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -604,6 +619,8 @@ SpriteRenderer:
   m_Size: {x: 20, y: 20}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
 --- !u!212 &212578042269064732
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -644,3 +661,5 @@ SpriteRenderer:
   m_Size: {x: 2.56, y: 2.56}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0

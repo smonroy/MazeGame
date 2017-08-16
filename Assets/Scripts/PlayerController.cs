@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
     private int nGoldenKeys;
     private Maze maze;
     private Animator anim;
+    private Invincibility invinci;
 
     private GameObject canvas;
     private Transform aux;
@@ -93,7 +94,7 @@ public class PlayerController : MonoBehaviour
 		aux = canvas.transform.Find("imgFastBack");
 		imgFastBack = aux.GetComponent<Image>();
 
-
+        invinci = GetComponent<Invincibility>();
         audSource = this.GetComponent<AudioSource>();
 		healthBar = transform.GetChild(2).gameObject;
 		healthBarRed = healthBar.transform.GetChild(0).gameObject;
@@ -184,8 +185,9 @@ public class PlayerController : MonoBehaviour
         }
         if (other.tag == "Arrow" || other.tag == "Enemy" || other.tag == "Explosion")
         {
-			if (!fastReturn && !winTheGame) {
+			if (!fastReturn && !winTheGame && !invinci.Invincible) {
 				Instantiate (redFlash.transform, new Vector3 (0, 0, -2f), Quaternion.identity);
+                StartCoroutine(invinci.InvincibleTimer());
 				for (int i = Mathf.Min (backStepsDead, path.Count); i > 1; i--) {
 					Destroy (path.Pop ().mark);
 				}
@@ -507,7 +509,7 @@ public class PlayerController : MonoBehaviour
 			UpdateCanvas ();
 			return true;
 		} else {
-			txtBottomMessage.text = "You are lack of ammo, you need to collect ammo boxes!";
+			txtBottomMessage.text = "You are out of ammo, you need to collect more ammo!";
 		}
         return false;
     }
@@ -518,7 +520,7 @@ public class PlayerController : MonoBehaviour
         {
             return true;
 		} else {
-			txtBottomMessage.text = "You are lack of bombs, you need to collect bombs!";
+			txtBottomMessage.text = "You are out of bombs, you need to collect somes bombs!";
         }
         return false;
     }

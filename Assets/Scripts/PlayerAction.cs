@@ -14,12 +14,12 @@ public class PlayerAction : MonoBehaviour
     private GameObject key;
     private Collider2D keyColl;
     private Renderer keyRend;
-    private Maze maze;
+    //private Maze maze;
 
     // Use this for initialization
     void Start()
     {
-        maze = GameObject.Find("GameController").GetComponent<Maze>();
+        //maze = GameObject.Find("GameController").GetComponent<Maze>();
         pc = GetComponent<PlayerController>();
         shootLoc = transform.GetChild(0);
         key = transform.GetChild(1).gameObject;
@@ -58,7 +58,7 @@ public class PlayerAction : MonoBehaviour
                 keyColl.enabled = true;
                 keyRend.enabled = true;
 			} else {
-				pc.setMessage("You are lack of keys, you need to collect a key");
+				pc.setMessage("You do not have any keys, you need to collect a key.");
 			}
         }
 		else if (Input.GetKeyUp(KeyCode.K) || Input.GetKeyUp(KeyCode.G))
